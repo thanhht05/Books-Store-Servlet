@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="BO.GioHangBO"%>
 <%@page import="modal.GioHang"%>
 <%@page import="modal.Sach"%>
@@ -60,7 +61,7 @@
 					<li class="nav-item">
 						<a
 							class="nav-link"
-							href="home.jsp">
+							href="home">
 							Trang chủ
 						</a>
 					</li>
@@ -86,7 +87,7 @@
 					%>
 					<li class="nav-item"><a
 						class="nav-link"
-						href="dangnhap.jsp"
+						href="auth?action=login"
 					> Đăng nhập </a></li>
 					<%
 					}
@@ -98,7 +99,7 @@
 
 					<li class="nav-item"><a
 						class="nav-link"
-						href="dangxuat.jsp"
+						href="auth?action=logout"
 					>Đăng xuất</a></li>  
 					<%
 					}
@@ -116,7 +117,7 @@
 				</ul>
 			
 				<div class="col-sm-3 ms-auto">
-				<form action="tc.jsp" method="post" class="d-flex" role="search">
+				<form action="home.jsp" method="post" class="d-flex" role="search">
    				   <input name="tenSach" class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
       				<button class="btn btn-outline-success" type="submit">Search</button>
     			</form>
@@ -126,47 +127,14 @@
 	</nav>
 
 	<div class="container mt-4">
-			<% 
-			HttpSession ss=request.getSession();
-			ss.setMaxInactiveInterval(6000); /* 100m */
-		
-		String maSach=request.getParameter("ms");
-		String tenSach=request.getParameter("ts");
-		String gia=request.getParameter("gia");
-		
-		String anh=request.getParameter("img");
-		
-		if(maSach!=null && tenSach!=null && gia!=null){
-			
-			GioHangBO gioHangBO ;
-				// neu mua hang lan dau
-				if(session.getAttribute("gh")==null){
-					gioHangBO = new GioHangBO();
-					session.setAttribute("gh", gioHangBO);
-				}
-				gioHangBO = (GioHangBO)session.getAttribute("gh");
-				GioHang gh = new GioHang();
-				gh.setAnh(anh);
-				gh.setGia(Integer.parseInt(gia));
-				gh.setMaSach(maSach);
-				gh.setTenSach(tenSach);
-				gh.setSoLuong(1);
-	
-				// them gio hang
-				gioHangBO.them(gh);
-				
-				session.setAttribute("gh", gioHangBO);
-				response.sendRedirect("giohang.jsp");
-				return;
-		}
-		%>
-		<%GioHangBO ghb = (GioHangBO)session.getAttribute("gh");%>
+		<% GioHangBO ghb = (GioHangBO) session.getAttribute("gh"); %>
 		<%if(ghb==null|| ghb.ds.isEmpty()){ %>
 			   <h2>Giỏ hàng của bạn đang trống</h2>
 		<%} %><%else{ %>
 			<table class="table">
 				<thead>
 	    			<tr>
+	    			 <th scope="col">Sách</th>
 				      <th scope="col">Mã sách</th>
 				      <th scope="col">Tên sách</th>
 				      <th scope="col">Số lượng</th>
@@ -177,30 +145,40 @@
 				    </tr>
 			  </thead>
 				<tbody>
-						<%for(int i=0; i<ghb.ds.size();i++){ %>
-					<tr>
-							<td><%=ghb.ds.get(i).getMaSach() %></td>
-					    	<td><%=ghb.ds.get(i).getTenSach() %></td>
-					     	<td>
-					     		<form action="capnhat.jsp" method="post">
-					     			<input type="hidden" name="id"  value="<%= ghb.ds.get(i).getMaSach() %>">
-						     		<input name="quantity" style="border: 1px solid #ccc;width:50px; text-align: center;" value=<%=ghb.ds.get(i).getSoLuong() %>>
-						     		<button  class="btn btn-danger">
-					    				Sửa
-					    			</button>
-					     		</form>
-					     	</td>
-					     	<td><%=ghb.ds.get(i).getGia() %></td>
-					    	<td><%=ghb.ds.get(i).getThanhTien() %></td>
-					    	<td> 
-					    		
-					    		<a href="xoa.jsp?delete-id=<%=ghb.ds.get(i).getMaSach() %>" class="btn btn-primary">
-					    			Xoá
-					    		</a>
-					    		
-					    	</td>
-					</tr>
-						<%} %>
+				     <%
+				     	ArrayList<GioHang> ds = (ArrayList<GioHang>)  session.getAttribute("ds");
+				     	
+				     	for(GioHang item :ds){ %>
+				     		<tr>
+				     			<td>
+								<img style="width: 72px" src="<%=item.getAnh()%>"/>
+							</td>
+								<td><%=item.getMaSach() %></td>
+						    	<td><%=item.getTenSach() %></td>
+						     	<td>
+						     		<form action="giohang?action=capnhat" method="post">
+						     			<input type="hidden" name="id"  value="<%=item.getMaSach()%>">
+							     		<input name="quantity" style="border: 1px solid #ccc;width:50px; text-align: center;" value=<%=item.getSoLuong() %>>
+							     		<button  class="btn btn-danger">
+						    				Sửa
+						    			</button>
+						     		</form>
+						     	</td>
+						     	<td><%=item.getGia() %></td>
+						    	<td><%=item.getThanhTien() %></td>
+						    	<td> 
+						    		
+						    		<a href="giohang?action=xoa&id=<%=item.getMaSach() %>" class="btn btn-primary">
+						    			Xoá
+						    		</a>
+						    		
+						    	</td>
+				     			
+				     		</tr>
+				     	<%} %>
+				     
+				    
+						
 					
 				</tbody>
 				

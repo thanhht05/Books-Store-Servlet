@@ -24,7 +24,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-<title>Trang tinh chi</title>
+<title>Trang chủ</title>
 <style>
 	body{
 		overflow-x:hidden;
@@ -73,8 +73,6 @@
 </head>
 <body>
 <%
-LoaiBO loaiBO = new LoaiBO(); 
-SachBO sachBO = new SachBO();
 request.setCharacterEncoding("utf-8");
 response.setCharacterEncoding("utf-8");
 %>
@@ -102,14 +100,14 @@ response.setCharacterEncoding("utf-8");
 					<li class="nav-item">
 						<a
 							class="nav-link"
-							href="home.jsp">
+							href="home">
 							Trang chủ
 						</a>
 					</li>
 					<li class="nav-item">
 						<a
 							class="nav-link"
-							href="giohang.jsp">
+							href="giohang">
 							Giỏ hàng
 						</a>
 					</li>
@@ -128,7 +126,7 @@ response.setCharacterEncoding("utf-8");
 					%>
 					<li class="nav-item"><a
 						class="nav-link"
-						href="dangnhap.jsp"
+						href="auth?action=login"
 					> Đăng nhập </a></li>
 					<%
 					}
@@ -140,7 +138,7 @@ response.setCharacterEncoding("utf-8");
 
 					<li class="nav-item"><a
 						class="nav-link"
-						href="dangxuat.jsp"
+						href="auth?action=logout"
 					>Đăng xuất</a></li>  
 					<%
 					}
@@ -158,7 +156,7 @@ response.setCharacterEncoding("utf-8");
 				</ul>
 			
 				<div class="col-sm-3 ms-auto">
-				<form action="tc.jsp" method="post" class="d-flex" role="search">
+				<form action="home" method="post" class="d-flex" role="search">
    				   <input name="tenSach" class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
       				<button class="btn btn-outline-success" type="submit">Search</button>
     			</form>
@@ -186,16 +184,25 @@ response.setCharacterEncoding("utf-8");
 				
 				  <ul class="dropdown-menu">
 				  	<li class="dropdown-item fs-5">
-				  		<a class="nav-link link-dark" href="tc.jsp">Tất cả sách</a>
+				  		<a class="nav-link link-dark" href="home.jsp">Tất cả sách</a>
 				  	</li>
-				   		 <%for(Loai l: loaiBO.getAllLoai()){ %>
-				     	 <li class="dropdown-item fs-5">
-					        <a  href="home.jsp?ml=<%=l.getMaLoai()%>" class="nav-link link-dark">
-					          <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
-					         	<%=l.getMaLoai() %>
-					        </a>
-					     </li>
-					    <%} %>
+				  		<%
+						ArrayList<Loai> ds = (ArrayList<Loai>) request.getAttribute("dsl");
+						
+						
+						%>
+						    <% for (Loai l : ds) { %>
+						        <li class="dropdown-item fs-5">
+						            <a href="home?ml=<%=l.getMaLoai()%>" class="nav-link link-dark">
+						                <svg class="bi me-2" width="16" height="16">
+						                    <use xlink:href="#speedometer2"></use>
+						                </svg>
+						                <%=l.getMaLoai()%>
+						            </a>
+						        </li>
+						    <% } %>
+						
+										  		
 				  </ul>
 				</div>
 			 </div>
@@ -208,26 +215,15 @@ response.setCharacterEncoding("utf-8");
 		<div class="col-sm-9 mt-3">
 			<div class="row g-4">
 				<% 
-					ArrayList<Sach> ds=null;
-					String mlPrg=request.getParameter("ml");
-					String tenSachPrg=request.getParameter("tenSach");
-					
-					if(mlPrg!=null){
-						
-						ds=sachBO.getSachByLoai(mlPrg);
-					}else if(tenSachPrg!=null){
-						ds=sachBO.findByTenSach(tenSachPrg);
-					}else{
-						ds=sachBO.getAllSach();
-					}
+				ArrayList<Sach> dss = (ArrayList<Sach>) request.getAttribute("dss");
 					
 					
 				%>
-				<%for(Sach s:ds){ %>
+				<%for(Sach s:dss){ %>
 					<div  style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;" class="col-sm-3 p-3 text-center ">
 						<img class="book-item-img" src="<%=s.getAnh() %>"/>
 						<div class="mt-2 text-center fs-5">
-							<a href="giohang.jsp?ms=<%=s.getMaSach()%>&ts=<%=s.getTenSach()%>&gia=<%=s.getGia()%>&img=<%=s.getAnh()%>">
+							<a href="giohang?action=them&ms=<%=s.getMaSach()%>&ts=<%=s.getTenSach()%>&gia=<%=s.getGia()%>&img=<%=s.getAnh()%>">
 								<img  style="width: 95px; height: 24px" src="<%="buynow.jpg" %>"/>
 								<img  style="width: 35px; height: 35px" src="<%="discount.png" %>"/>
 								

@@ -18,11 +18,8 @@ public class GioHangBO {
 		for (int i = 0; i < ds.size(); i++) {
 			GioHang gi = ds.get(i);
 			if (gi.getMaSach().equalsIgnoreCase(gioHang.getMaSach())) {
-				gi.setSoLuong(gi.getSoLuong() + gioHang.getSoLuong());
-
-				gi.setThanhTien(gi.getSoLuong() * gi.getGia());
-
-				ds.add(gi);
+				long soLm= ds.get(i).getSoLuong()+gioHang.getSoLuong();
+				ds.get(i).setSoLuong(soLm);
 				return;
 			}
 		}
