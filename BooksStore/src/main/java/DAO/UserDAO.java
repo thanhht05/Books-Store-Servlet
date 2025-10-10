@@ -65,7 +65,7 @@ public class UserDAO {
 	}
 	
 	public boolean checkLogin(String email, String pass) {
-		User user = getUserByEmail(email);///dfdsf
+		User user = getUserByEmail(email);
 		if(user==null) {
 			return false;
 		}
