@@ -1,4 +1,4 @@
-package controller;
+package controller.user;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class HomeController extends HttpServlet {
 		
 		request.setAttribute("dss", ds);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("user/home.jsp");
 		
 		rd.forward(request, response);
 		

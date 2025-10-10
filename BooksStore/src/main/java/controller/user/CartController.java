@@ -1,4 +1,4 @@
-package controller;
+package controller.user;
 
 import java.io.IOException;
 
@@ -44,7 +44,7 @@ public class CartController extends HttpServlet {
 		}
 		String action =request.getParameter("action");
 		if(action==null) {
-			RequestDispatcher rd = request.getRequestDispatcher("giohang.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("user/giohang.jsp");
 			rd.forward(request, response);
 			return;
 		}

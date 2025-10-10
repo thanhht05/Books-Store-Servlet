@@ -43,7 +43,7 @@
 			<a
 				class="navbar-brand"
 				href="#">
-				<img src="logo.jpg" style="width:60px; height:60px;" />
+				<img src="img/logo.jpg" style="width:60px; height:60px;" />
 			</a>
 			<button
 				class="navbar-toggler"

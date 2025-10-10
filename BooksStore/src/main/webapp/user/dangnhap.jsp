@@ -152,14 +152,14 @@
 
           <!-- Email input -->
           <div data-mdb-input-init class="form-outline mb-4">
-            <input name="txtun" type="text" id="form3Example3" class="form-control form-control-lg"
+            <input name="email" type="text" id="form3Example3" class="form-control form-control-lg"
               placeholder="Enter your username" />
             <label class="form-label" for="form3Example3">Username</label>
           </div>
 
           <!-- Password input -->
           <div data-mdb-input-init class="form-outline mb-3">
-            <input name="txtpass" type="password" id="form3Example4" class="form-control form-control-lg"
+            <input name="pass" type="password" id="form3Example4" class="form-control form-control-lg"
               placeholder="Enter password" />
             <label class="form-label" for="form3Example4">Password</label>
           </div>
@@ -178,11 +178,15 @@
           <div class="text-center text-lg-start mt-4 pt-2">
             <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
               style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!"
+            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="auth?action=register"
                 class="link-danger">Register</a></p>
           </div>
 
         </form>
+        <% String err = (String) request.getAttribute("error");
+  			 if (err != null) { %>
+   				<div class="alert alert-danger mt-3"><%= err %></div>
+		<% } %>
       </div>
     </div>
   </div>

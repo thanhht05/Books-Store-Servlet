@@ -82,7 +82,7 @@ response.setCharacterEncoding("utf-8");
 			<a
 				class="navbar-brand"
 				href="#">
-				<img src="logo.jpg" style="width:60px; height:60px;" />
+				<img src="img/logo.jpg" style="width:60px; height:60px;" />
 			</a>
 			<button
 				class="navbar-toggler"
@@ -174,7 +174,7 @@ response.setCharacterEncoding("utf-8");
 			    <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
 			      <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
 			      <span class="fs-5 fw-semibold">
-			      	<img style="width:100%" src="logo.jpg"/>
+			      	<img style="width:100%" src="img/logo.jpg"/>
 			      </span>
 			    </a>
 			   <div class="dropdown">
@@ -224,8 +224,8 @@ response.setCharacterEncoding("utf-8");
 						<img class="book-item-img" src="<%=s.getAnh() %>"/>
 						<div class="mt-2 text-center fs-5">
 							<a href="giohang?action=them&ms=<%=s.getMaSach()%>&ts=<%=s.getTenSach()%>&gia=<%=s.getGia()%>&img=<%=s.getAnh()%>">
-								<img  style="width: 95px; height: 24px" src="<%="buynow.jpg" %>"/>
-								<img  style="width: 35px; height: 35px" src="<%="discount.png" %>"/>
+								<img  style="width: 95px; height: 24px" src="<%="img/buynow.jpg" %>"/>
+								<img  style="width: 35px; height: 35px" src="<%="img/discount.png" %>"/>
 								
 							</a>
 							<h1 class="my-2"><%=s.getTenSach() %></h1>

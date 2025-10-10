@@ -36,14 +36,14 @@ public class UserController extends HttpServlet {
 			user.setEmail(email);
 			user.setGioTinh(gioTinh.equals("1"));
 			user.setHoTen(hoTen);
-			String hashedPassword = PasswordEncryptor.hashPassword(pass);
-			user.setPassword(hashedPassword);
+			
+			user.setPassword(pass);
 			user.setPhone(phone);
 			userBO.createUser(user);
 			
 			response.sendRedirect("admin");
 		}else {
-			RequestDispatcher rd = request.getRequestDispatcher("/create-user.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("admin/create-user.jsp");
 			rd.forward(request, response);
 		}
 		
