@@ -17,17 +17,11 @@ public class SachBO {
 	}
 
 	public ArrayList<Sach> findByTenSach(String tenSach) {
-		ds = sachDAO.getAllSach();
-		ArrayList<Sach> dsFind = ds.stream().filter(s -> s.getTenSach().toLowerCase().contains(tenSach.toLowerCase()))
-				.collect(Collectors.toCollection(ArrayList::new));
-		return dsFind;
+		return sachDAO.findByTenSach(tenSach);
 	}
 
 	public ArrayList<Sach> getSachByLoai(String loai) {
-		ds = sachDAO.getAllSach();
-		ArrayList<Sach> sachL = ds.stream().filter(s -> s.getMaLoai().toLowerCase().contains(loai.toLowerCase()))
-				.collect(Collectors.toCollection(ArrayList::new));
-		return sachL;
+		return sachDAO.getSachByLoai(loai);
 
 	}
 }

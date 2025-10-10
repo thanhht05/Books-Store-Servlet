@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class KetNoiJDBC {
-	private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=VOLUNTEER;encrypt=false";
+	private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=bookstore;encrypt=false";
     private static final String USER = "sa";
     private static final String PASSWORD = "2005";
 
