@@ -24,4 +24,11 @@ public class SachBO {
 		return sachDAO.getSachByLoai(loai);
 
 	}
+	
+	public ArrayList<Sach> getSachByPage(int pageNum, int rowsPerPage) {
+		return sachDAO.getSachByPage(pageNum, rowsPerPage);
+	}
+	public int countSach() {
+		return sachDAO.countSach();
+	}
 }

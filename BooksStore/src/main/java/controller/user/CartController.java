@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import BO.GioHangBO;
+import BO.LoaiBO;
 import modal.GioHang;
 
 /**
@@ -34,7 +35,8 @@ public class CartController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		LoaiBO loaiBO = new LoaiBO();
+		request.setAttribute("dsl", loaiBO.getAllLoai());
 		
 		HttpSession session = request.getSession();
 		String un = (String)session.getAttribute("un");
@@ -42,8 +44,14 @@ public class CartController extends HttpServlet {
 			response.sendRedirect("auth?action=login");
 			return;
 		}
+		session.setAttribute(un, un);
 		String action =request.getParameter("action");
 		if(action==null) {
+			 GioHangBO gioHangBO = (GioHangBO) session.getAttribute("gh");
+			    if (gioHangBO != null) {
+			        long tongTien = gioHangBO.tongTien();
+			        request.setAttribute("tongTien", tongTien);
+			    }
 			RequestDispatcher rd = request.getRequestDispatcher("user/giohang.jsp");
 			rd.forward(request, response);
 			return;
@@ -78,6 +86,7 @@ public class CartController extends HttpServlet {
 				
 				session.setAttribute("gh", gioHangBO);
 				session.setAttribute("ds", gioHangBO.ds);
+				
 				
 				response.sendRedirect("giohang");
 				
