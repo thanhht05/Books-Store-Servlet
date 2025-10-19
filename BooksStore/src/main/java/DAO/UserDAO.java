@@ -84,10 +84,15 @@ public class UserDAO {
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				User user= new User();
-//				user
+				user.setId(rs.getLong("id"));
+//				user.setDiaChi(rs.getString("diachi"));
+				user.setEmail(rs.getString("email"));
+				user.setGioTinh(rs.getBoolean("gioitinh"));
+				user.setHoTen(rs.getString("hoten"));
+				ds.add(user);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return ds;
 	}

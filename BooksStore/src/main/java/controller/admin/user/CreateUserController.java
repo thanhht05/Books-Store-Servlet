@@ -1,4 +1,4 @@
-package controller.admin;
+package controller.admin.user;
 
 import java.io.IOException;
 
@@ -13,8 +13,8 @@ import BO.UserBO;
 import configuration.PasswordEncryptor;
 import modal.User;
 
-@WebServlet("/create-user")
-public class UserController extends HttpServlet {
+@WebServlet("/admin/create-user")
+public class CreateUserController extends HttpServlet {
 	UserBO userBO = new UserBO();
 
 	/**
@@ -43,7 +43,7 @@ public class UserController extends HttpServlet {
 			
 			response.sendRedirect("admin");
 		}else {
-			RequestDispatcher rd = request.getRequestDispatcher("admin/create-user.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/admin/user/create-user.jsp");
 			rd.forward(request, response);
 		}
 		

@@ -1,7 +1,6 @@
-package controller.admin;
+package controller.admin.user;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,20 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import BO.UserBO;
-import modal.User;
-
 /**
- * Servlet implementation class DashBoardController
+ * Servlet implementation class UpdateUserController
  */
-@WebServlet("/admin") 
-public class DashBoardController extends HttpServlet {
+@WebServlet("/admin/update-user")
+public class UpdateUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-     
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DashBoardController() {
+    public UpdateUserController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,8 +28,8 @@ public class DashBoardController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/admin/dashboard.jsp");
-		
+		// TODO Auto-generated method stub
+		RequestDispatcher rd = request.getRequestDispatcher("/admin/user/update-user.jsp");
 		rd.forward(request, response);
 	}
 

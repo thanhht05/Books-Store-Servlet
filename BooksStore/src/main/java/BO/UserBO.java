@@ -1,5 +1,7 @@
 package BO;
 
+import java.util.ArrayList;
+
 import DAO.UserDAO;
 import modal.User;
 
@@ -19,5 +21,9 @@ public class UserBO {
 	
 	public User getUserByEmail(String email) {
 		return userDAO.getUserByEmail(email);
+	}
+	
+	public ArrayList<User> getAllUser(){
+		return userDAO.getAllUser();
 	}
 }
