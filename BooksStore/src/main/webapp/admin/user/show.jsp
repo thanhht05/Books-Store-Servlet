@@ -49,8 +49,8 @@
 									<td> ${i.getEmail()} </td>
 									<td>Admin</td>
 									<td>
-										<a href="admin/update-user" class="btn btn-warning btn-sm">Sửa</a>
-										<button class="btn btn-danger btn-sm">Xóa</button>
+										<a href="/admin/update-user?update-id=${i.getId() }" class="btn btn-warning btn-sm">Sửa</a>
+										<a href="/admin/delete-user?delete-id=${i.getId() }" class="btn btn-danger btn-sm">Xoá</a>
 									</td>
 								</tr>
 							

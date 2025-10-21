@@ -10,7 +10,7 @@
 <body>
 	<%
    		String quantityStr=request.getParameter("quantity");
-		String id=request.getParameter("id");
+		Long id=Long.parseLong( request.getParameter("id"));
 		GioHangBO ghb=  (GioHangBO) session.getAttribute("gh");
 		if(ghb!=null){
 			

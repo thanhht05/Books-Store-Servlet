@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import BO.GioHangBO;
 import BO.LoaiBO;
 import modal.GioHang;
+import modal.User;
 
 /**
  * Servlet implementation class CartController
@@ -39,15 +40,17 @@ public class CartController extends HttpServlet {
 		request.setAttribute("dsl", loaiBO.getAllLoai());
 		
 		HttpSession session = request.getSession();
-		String un = (String)session.getAttribute("un");
+		User un = (User)session.getAttribute("userLogin");
 		if(un==null) {
 			response.sendRedirect("auth?action=login");
 			return;
 		}
-		session.setAttribute(un, un);
+		
 		String action =request.getParameter("action");
 		if(action==null) {
 			 GioHangBO gioHangBO = (GioHangBO) session.getAttribute("gh");
+			 request.setAttribute("listGioHang", gioHangBO.ds);
+
 			    if (gioHangBO != null) {
 			        long tongTien = gioHangBO.tongTien();
 			        request.setAttribute("tongTien", tongTien);
@@ -59,7 +62,7 @@ public class CartController extends HttpServlet {
 		
 		if(action.equals("them")) {
 			
-			String maSach = request.getParameter("ms");
+			Long maSach = Long.parseLong( request.getParameter("ms"));
 			String tenSach = request.getParameter("ts");
 			String gia = request.getParameter("gia");
 			String anh = request.getParameter("img");
@@ -93,7 +96,7 @@ public class CartController extends HttpServlet {
 			}
 		}else if(action.equals("capnhat")) {
 			String quantityStr=request.getParameter("quantity");
-			String id=request.getParameter("id");
+			Long  id=Long.parseLong(request.getParameter("id"));
 			GioHangBO ghb=  (GioHangBO) session.getAttribute("gh");
 			if(ghb!=null){
 				
@@ -105,7 +108,7 @@ public class CartController extends HttpServlet {
 
 		}else if(action.equals("xoa")) {
 			GioHangBO ghb = (GioHangBO) session.getAttribute("gh");
-			String id=request.getParameter("id");
+			Long  id=Long.parseLong(request.getParameter("id"));
 			if(ghb!=null){
 				
 				if(id!=null){

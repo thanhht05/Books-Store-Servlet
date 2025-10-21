@@ -43,19 +43,20 @@ public class UserDAO {
 		}
 		return false;
 	}
-	
+
 	public User getUserByEmail(String email) {
 		try (Connection conn = KetNoiJDBC.getConnection()) {
-			String sql="SELECT * FROM Users WHERE email=?";
+			String sql = "SELECT * FROM Users WHERE email=?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, email);
-			
+
 			ResultSet rs = stmt.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				User user = new User();
 				user.setEmail(rs.getString("email"));
 				user.setPassword(rs.getString("matKhau"));
 				user.setHoTen(rs.getString("hoten"));
+				user.setId(rs.getLong("id"));
 				return user;
 			}
 		} catch (Exception e) {
@@ -63,27 +64,27 @@ public class UserDAO {
 		}
 		return null;
 	}
-	
+
 	public boolean checkLogin(String email, String pass) {
 		User user = getUserByEmail(email);
-		if(user==null) {
+		if (user == null) {
 			return false;
 		}
-		if(!user.getPassword().equals(PasswordEncryptor.hashPassword(pass))) {
+		if (!user.getPassword().equals(PasswordEncryptor.hashPassword(pass))) {
 			return false;
 		}
 		return true;
-		
+
 	}
-	
-	public ArrayList<User> getAllUser(){
+
+	public ArrayList<User> getAllUser() {
 		ArrayList<User> ds = new ArrayList<User>();
-		try (Connection conn = KetNoiJDBC.getConnection()){
-			String sql="SELECT * FROM users";
-			PreparedStatement stmt=conn.prepareStatement(sql);
+		try (Connection conn = KetNoiJDBC.getConnection()) {
+			String sql = "SELECT * FROM users";
+			PreparedStatement stmt = conn.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
-				User user= new User();
+			while (rs.next()) {
+				User user = new User();
 				user.setId(rs.getLong("id"));
 //				user.setDiaChi(rs.getString("diachi"));
 				user.setEmail(rs.getString("email"));
@@ -96,4 +97,60 @@ public class UserDAO {
 		}
 		return ds;
 	}
+
+	public User getUserById(long id) {
+		try (Connection conn = KetNoiJDBC.getConnection()) {
+			String sql = "SELECT * FROM Users WHERE id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setLong(1, id);
+
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				User user = new User();
+				user.setId(rs.getLong("id"));
+				user.setDiaChi(rs.getString("diachi"));
+				user.setEmail(rs.getString("email"));
+				user.setGioTinh(rs.getBoolean("gioitinh"));
+				user.setHoTen(rs.getString("hoten"));
+				user.setPhone(rs.getString("SDT"));
+				return user;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public boolean updateUserById(User user) {
+		try (Connection conn = KetNoiJDBC.getConnection()) {
+			String sql = "UPDATE Users SET hoten=?, email=?, gioitinh=?, diachi=?, SDT=? WHERE id=?";
+			
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, user.getHoTen());
+			stmt.setString(2, user.getEmail());
+			stmt.setBoolean(3, user.getGioTinh());
+			stmt.setString(4, user.getDiaChi());
+			stmt.setString(5, user.getPhone());
+			stmt.setLong(6, user.getId());
+			
+			return  stmt.executeUpdate()>0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean deleteUserById(long id) {
+		try (Connection conn = KetNoiJDBC.getConnection()){
+			String sql="DELETE FROM Users WHERE id=?";
+			PreparedStatement stmt=conn.prepareStatement(sql);
+			stmt.setLong(1, id);
+			
+			return stmt.executeUpdate()>0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }

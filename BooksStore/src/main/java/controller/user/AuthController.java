@@ -72,7 +72,11 @@ public class AuthController extends HttpServlet {
 
 			if (userBO.checkLogin(emailLogin, pass)) {
 				User user = userBO.getUserByEmail(emailLogin);
-				session.setAttribute("un", user.getHoTen());
+				
+				if(user!=null) {
+					
+					session.setAttribute("userLogin", user);
+				}
 				response.sendRedirect("home");
 			} else {
 				request.setAttribute("error", "Sai tài khoản hoặc mật khẩu!");

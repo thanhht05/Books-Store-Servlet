@@ -199,8 +199,8 @@
 			<!-- end sidebar -->
 		</div>
 		<div class="col-sm-10">
-			<% GioHangBO ghb = (GioHangBO) session.getAttribute("gh"); %>
-			<%if(ghb==null|| ghb.ds.isEmpty()){ %>
+			<% ArrayList<GioHang> ghb= (ArrayList<GioHang>) request.getAttribute("listGioHang"); %>
+			<%if(ghb==null|| ghb.isEmpty()){ %>
 				   <h2>Giỏ hàng của bạn đang trống</h2>
 			<%} %><%else{ %>
 				<table class="table">
@@ -241,9 +241,10 @@
 							    	<td>${ item.getThanhTien() }</td>
 							    	<td> 
 							    		
-							    		<a href="giohang?action=xoa&id=${item.getMaSach() }>" class="btn btn-primary">
-							    			Xoá
-							    		</a>
+							    		<a href="giohang?action=xoa&id=${item.getMaSach()}" class="btn btn-primary">
+										    Xoá
+										</a>
+																	    		
 							    		
 							    	</td>
 					     			
@@ -257,7 +258,11 @@
 					<h4>Thành tiền: <b>${tongTien}đ</b></h4>
 
 				</div> 
+				<div class="text-end me-4"> 
 					
+					<a href="/buy" class="btn btn-success mt-2">Xác nhận mua hàng</a>
+
+				</div> 
 			<%} %>
 		</div>
 	</div>

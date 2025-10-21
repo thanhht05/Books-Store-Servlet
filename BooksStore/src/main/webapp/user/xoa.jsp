@@ -10,7 +10,7 @@
 <body>
 	<%
    		GioHangBO ghb = (GioHangBO) session.getAttribute("gh");
-		String id=request.getParameter("delete-id");
+		Long id=Long.parseLong( request.getParameter("delete-id"));
 		if(ghb!=null){
 			
 			if(id!=null){

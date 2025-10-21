@@ -1,7 +1,7 @@
 package modal;
 
 public class GioHang {
-	private String maSach;
+	private long maSach;
 	private String tenSach;
 	private long soLuong;
 	private long gia;
@@ -10,7 +10,7 @@ public class GioHang {
 	public GioHang() {
 		
 	}
-	public GioHang(String maSach, String tenSach, long soLuong, long gia, String anh) {
+	public GioHang(long maSach, String tenSach, long soLuong, long gia, String anh) {
 		super();
 		this.maSach = maSach;
 		this.tenSach = tenSach;
@@ -19,10 +19,10 @@ public class GioHang {
 		this.anh = anh;
 		this.thanhTien = soLuong*gia;
 	}
-	public String getMaSach() {
+	public long getMaSach() {
 		return maSach;
 	}
-	public void setMaSach(String maSach) {
+	public void setMaSach(long maSach) {
 		this.maSach = maSach;
 	}
 	public String getTenSach() {

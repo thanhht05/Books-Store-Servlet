@@ -1,75 +1,197 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page
+	language="java"
+	contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"
+%>
+<%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core"
+	prefix="c"
+%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Update user</title>
+<meta charset="utf-8" />
+<meta
+	http-equiv="X-UA-Compatible"
+	content="IE=edge"
+/>
+<meta
+	name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/>
+<meta
+	name="description"
+	content=""
+/>
+<meta
+	name="author"
+	content=""
+/>
+<title>Dashboard - SB Admin</title>
 <link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
 	rel="stylesheet"
-	integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+/>
+<link
+	href="/assets/css/styles.css"
+	rel="stylesheet"
+/>
+<script
+	src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
 	crossorigin="anonymous"
->
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
-<style>
-	 body {
-      background-color: #f8f9fa;
-    }
-    .sidebar {
-      min-height: 100vh;
-      background-color: #343a40;
-      color: white;
-    }
-    .sidebar a {
-      color: #ddd;
-      text-decoration: none;
-      display: block;
-      padding: 10px 15px;
-    }
-    .sidebar a:hover {
-      background-color: #495057;
-      color: white;
-    }
-</style>
+></script>
 </head>
-<body>
-	<div class="container-fluid">
-		<div class="row">
-			<!-- Sidebar -->
-			<nav class="col-md-2 sidebar">
-				<h4 class="p-3 text-center border-bottom">ADMIN</h4>
-				<a
-					href="#"
-					onclick="showSection('books')"
-				>📚 Quản lý Sách</a>
-				<a
-					href="#"
-					onclick="showSection('users')"
-				>👤 Quản lý User</a>
-				<a
-					href="#"
-					onclick="showSection('orders')"
-				>🧾 Quản lý Đơn hàng</a>
+<body class="sb-nav-fixed">
+	<c:import url="/admin/layouts/navbar.jsp" />
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_nav">
+			<nav
+				class="sb-sidenav accordion sb-sidenav-dark"
+				id="sidenavAccordion"
+			>
+				<c:import url="/admin/layouts/sidebar.jsp" />
 			</nav>
-			<!-- Main content -->
-			<main class="col-md-10 p-4">
-				<h2
-					class="mb-4"
-					id="section-title"
-				>Update user</h2>
-				
-				
+		</div>
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid px-4">
+					<div class="form-container col-md-6 p-4 mx-auto">
+						<h3 class="text-center mb-4">Cập Nhật Người Dùng</h3>
+						<form
+							method="post"
+							action="/admin/update-user"
+						>
+							<input
+								name="id"
+								type="hidden"
+								value="${user.getId() }"
+							>
+							<div class="mb-3">
+								<label
+									for="hoTen"
+									class="form-label"
+								>Họ và tên</label>
+								<input
+									type="text"
+									class="form-control"
+									id="hoTen"
+									name="hoten"
+									placeholder="Nhập họ tên"
+									required
+									value="${user.getHoTen()}"
+								>
+							</div>
+							<div class="mb-3">
+								<label
+									for="email"
+									class="form-label"
+								>Email</label>
+								<input
+									type="email"
+									class="form-control"
+									id="email"
+									name="email"
+									placeholder="Nhập email"
+									required
+									value="${user.getEmail()}"
+								>
+							</div>
+							<div class="mb-3">
+								<label
+									for="phone"
+									class="form-label"
+								>Số điện thoại</label>
+								<input
+									type="tel"
+									class="form-control"
+									id="phone"
+									name="phone"
+									placeholder="Nhập số điện thoại"
+									required
+									value="${user.getPhone()}"
+								>
+							</div>
+							<div class="mb-3">
+								<label
+									for="diaChi"
+									class="form-label"
+								>Địa chỉ</label>
+								<textarea
+									class="form-control"
+									id="diaChi"
+									name="diachi"
+									rows="2"
+									placeholder="Nhập địa chỉ"
+									required
+								>${user.getDiaChi() }</textarea>
+							</div>
+							<div class="mb-3">
+								<label class="form-label">Giới tính</label>
+								<div>
+									<div class="form-check form-check-inline">
+										<input
+											class="form-check-input"
+											type="radio"
+											name="giotinh"
+											id="nam"
+											value="1"
+											checked
+										>
+										<label
+											class="form-check-label"
+											for="nam"
+										>Nam</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input
+											class="form-check-input"
+											type="radio"
+											name="giotinh"
+											id="nu"
+											value="0"
+										>
+										<label
+											class="form-check-label"
+											for="nu"
+										>Nữ</label>
+									</div>
+								</div>
+							</div>
+							<div class="d-grid">
+								<button
+									type="submit"
+									class="btn btn-primary"
+								>Update người dùng</button>
+							</div>
+						</form>
+					</div>
+					<%
+					String err = (String) request.getAttribute("error");
+					if (err != null) {
+					%>
+					<div class="alert alert-danger mt-3"><%=err%></div>
+					<%
+					}
+					%>
+				</div>
 			</main>
+			<footer class="py-4 bg-light mt-auto">
+				<div class="container-fluid px-4">
+					<div class="d-flex align-items-center justify-content-between small">
+						<div class="text-muted">Copyright &copy; Your Website 2025</div>
+						<div>
+							<a href="#">Privacy Policy</a>
+							&middot;
+							<a href="#">Terms &amp; Conditions</a>
+						</div>
+					</div>
+				</div>
+			</footer>
 		</div>
 	</div>
-	
-	
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"
+	></script>
 </body>
-
 </html>

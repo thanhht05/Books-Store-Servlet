@@ -43,7 +43,7 @@ public class SachDAO {
 
 			while (rs.next()) {
 				Sach s = new Sach();
-
+				s.setMaSach(rs.getString("masach"));
 				s.setAnh(rs.getString("anh"));
 				s.setGia(rs.getLong("gia"));
 				s.setTacGia(rs.getString("tacgia"));
@@ -76,6 +76,7 @@ public class SachDAO {
 				s.setTenSach(rs.getString("tensach"));
 				s.setSoLuong(rs.getLong("soluong"));
 				s.setMaLoai(rs.getString("maloai"));
+				s.setMaSach(rs.getString("masach"));
 				dsSach.add(s);
 			}
 		} catch (Exception e) {
@@ -104,6 +105,7 @@ public class SachDAO {
 				s.setTenSach(rs.getString("tensach"));
 				s.setSoLuong(rs.getLong("soluong"));
 				s.setMaLoai(rs.getString("maloai"));
+				s.setMaSach(rs.getString("masach"));
 				ds.add(s);
 			}
 		} catch (Exception e) {

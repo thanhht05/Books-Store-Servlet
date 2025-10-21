@@ -1,350 +1,150 @@
-<%@page import="java.util.ArrayList"%>
-<%@page import="modal.Sach"%>
-<%@page import="BO.SachBO"%>
-<%@page import="modal.Loai"%>
-<%@page import="BO.LoaiBO"%>
-<%@ page
-	language="java"
-	contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"
-%>
-<%@ taglib
-	uri="http://java.sun.com/jsp/jstl/core"
-	prefix="c"
-%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="modal.Sach" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-<meta charset="UTF-8">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-	crossorigin="anonymous"
->
-<link
-	rel="preconnect"
-	href="https://fonts.googleapis.com"
->
-<link
-	rel="preconnect"
-	href="https://fonts.gstatic.com"
-	crossorigin
->
-<link
-	href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-	rel="stylesheet"
->
-<link
-	rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
->
-<title>Trang chủ</title>
-<style>
-body {
-	overflow-x: hidden;
-	font-family: "Roboto", sans-serif;
-	font-optical-sizing: auto;
-	font-weight: <weight>;
-	font-style: normal;
-	font-variation-settings: "wdth" 100;
-}
-
-* {
-	margin: 0;
-	padding: 0;
-}
-
-p {
-	margin: 0
-}
-
-a {
-	display: block;
-}
-
-h1 {
-	color: green;
-	font-size: 20px
-}
-
-ul, li {
-	list-style: none;
-}
-
-li {
-	padding: 10px 0;
-}
-
-.book-item-img {
-	width: 220px;
-	height: 230px;
-	object-fit: contain;
-	transition: transform 0.5s ease; /* hiệu ứng mượt trong 0.5 giây */
-}
-
-.book-item-img:hover {
-	cursor: pointer;
-	transform: scale(1.1);
-}
-</style>
+    <meta charset="UTF-8">
+    <title>Trang chủ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Roboto", sans-serif;
+            background-color: #f9f9f9;
+            overflow-x: hidden;
+        }
+        .book-item {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+            border-radius: 10px;
+        }
+        .book-item:hover {
+            transform: scale(1.04);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .book-item-img {
+            width: 100%;
+            height: 230px;
+            object-fit: contain;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background-color: white;
+            box-shadow: rgba(0,0,0,0.05) 0px 4px 10px;
+        }
+        .sidebar a {
+            color: #333;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            color: #0d6efd;
+        }
+        .nav-link.active {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-	<%
-	request.setCharacterEncoding("utf-8");
-	response.setCharacterEncoding("utf-8");
-	%>
-	<!-- begin nav -->
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-		<div class="container-fluid">
-			<a
-				class="navbar-brand"
-				href="#"
-			>
-				<img
-					src="img/logo.jpg"
-					style="width: 60px; height: 60px;"
-				/>
-			</a>
-			<button
-				class="navbar-toggler"
-				type="button"
-				data-bs-toggle="collapse"
-				data-bs-target="#collapsibleNavbar"
-			>
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div
-				class="collapse navbar-collapse"
-				id="collapsibleNavbar"
-			>
-				<ul class="navbar-nav">
-					<li class="nav-item">
-						<a
-							class="nav-link"
-							href="home"
-						> Trang chủ </a>
-					</li>
-					<li class="nav-item">
-						<a
-							class="nav-link"
-							href="giohang"
-						> Giỏ hàng </a>
-					</li>
-					<li class="nav-item">
-						<a
-							class="nav-link"
-							href="#"
-						>Thanh toán</a>
-					</li>
-					<li class="nav-item">
-						<a
-							class="nav-link"
-							href="#"
-						>Lịch sử khách hàng</a>
-					</li>
-					<%
-					if (session.getAttribute("un") == null) {
-					%>
-					<li class="nav-item">
-						<a
-							class="nav-link"
-							href="auth?action=login"
-						> Đăng nhập </a>
-					</li>
-					<%
-					}
-					%>
-					<%
-					if (session.getAttribute("un") != null) {
-					%>
-					<li class="nav-item">
-						<a
-							class="nav-link"
-							href="auth?action=logout"
-						>Đăng xuất</a>
-					</li>
-					<%
-					}
-					%>
-					<%
-					if (session.getAttribute("un") != null) {
-					%>
-					<li class="nav-item">
-						<a
-							class="nav-link"
-							href="#"
-						>
-							Xin chào:
-							<%=session.getAttribute("un")%>
-						</a>
-					</li>
-					<%
-					}
-					%>
-				</ul>
-				<div class="col-sm-3 ms-auto">
-					<form
-						action="home"
-						method="post"
-						class="d-flex"
-						role="search"
-					>
-						<input
-							name="tenSach"
-							class="form-control me-2"
-							type="search"
-							placeholder="Search"
-							aria-label="Search"
-						/>
-						<button
-							class="btn btn-outline-success"
-							type="submit"
-						>Search</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</nav>
-	<!-- end nav -->
-	<div class="row">
-		<div
-			class="col-sm-3"
-			style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;"
-		>
-			<!-- start sidebar -->
-			<div
-				class="flex-shrink-0 p-3 bg-white"
-				style="width: 280px;"
-			>
-				<a
-					href="/"
-					class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom"
-				>
-					<svg
-						class="bi me-2"
-						width="30"
-						height="24"
-					>
-						<use xlink:href="#bootstrap"></use></svg>
-					<span class="fs-5 fw-semibold">
-						<img
-							style="width: 100%"
-							src="img/logo.jpg"
-						/>
-					</span>
-				</a>
-				<div class="dropdown">
-					<a
-						class="btn btn-secondary dropdown-toggle"
-						href="#"
-						role="button"
-						data-bs-toggle="dropdown"
-						aria-expanded="true"
-					> Loại Sách </a>
-					<ul class="dropdown-menu">
-						<li class="dropdown-item fs-5">
-							<a
-								class="nav-link link-dark"
-								href="home.jsp"
-							>Tất cả sách</a>
-						</li>
-						<c:forEach var="l" items="${dsl}">
-						
-						<li class="dropdown-item fs-5">
-							<a
-								href="home?ml=${l.getMaLoai()}"
-								class="nav-link link-dark"
-							>
-								<svg
-									class="bi me-2"
-									width="16"
-									height="16"
-								>
-						                    <use xlink:href="#speedometer2"></use>
-						                </svg>
-								${l.getMaLoai()}
-							</a>
-						</li>
-						</c:forEach>
-					</ul>
-				</div>
-			</div>
-			<!-- end sidebar -->
-		</div>
-		<!-- start list book -->
-		<div class="col-sm-9 mt-3">
-			<div class="row g-4">
-				<%
-				ArrayList<Sach> dss = (ArrayList<Sach>) request.getAttribute("dss");
-				%>
-				<%
-				for (Sach s : dss) {
-				%>
-				<div
-					style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;"
-					class="col-sm-3 p-3 text-center "
-				>
-					<img
-						class="book-item-img"
-						src="<%=s.getAnh()%>"
-					/>
-					<div class="mt-2 text-center fs-5">
-						<a href="giohang?action=them&ms=<%=s.getMaSach()%>&ts=<%=s.getTenSach()%>&gia=<%=s.getGia()%>&img=<%=s.getAnh()%>">
-							<img
-								style="width: 95px; height: 24px"
-								src="<%="img/buynow.jpg"%>"
-							/>
-							<img
-								style="width: 35px; height: 35px"
-								src="<%="img/discount.png"%>"
-							/>
-						</a>
-						<h1 class="my-2"><%=s.getTenSach()%></h1>
-						<p>
-							Giá bán:
-							<span style="color: orange; font-weight: bold"><%=s.getGia()%>đ
-							</span>
-						</p>
-					</div>
-				</div>
-				<%
-				}
-				%>
-			</div>
-		</div>
-		<c:set var="extraParam" value="" />
 
-		<c:if test="${not empty param.ml}">
-		    <c:set var="extraParam" value="&ml=${param.ml}" />
-		</c:if>
-		<c:if test="${not empty param.tenSach}">
-		    <c:set var="extraParam" value="&tenSach=${param.tenSach}" />
-		</c:if>
-		<c:if test="${not empty param.maSach}">
-		    <c:set var="extraParam" value="&maSach=${param.maSach}" />
-		</c:if>
-				
-		<nav aria-label="Page navigation example" class="d-flex justify-content-center align-items-center">
-		  <ul class="pagination">
-		    <li class="page-item ${curPage==1 ? 'disabled' : ''}"><a class="page-link" href="?page=${curPage-1}${extraParam}">Previous</a></li>
-		    <c:forEach var="i" begin="1" end="${totalPages}">
-		    
-		    	 <li class="page-item ${i==curPage ? 'active':''}">
-		    	 	<a class="page-link" href="?page=${i}${extraParam}">${i}</a>
-		    	 </li>
-		    </c:forEach>
-		    <li class="page-item ${curPage==totalPages ? 'disabled' :''}">
-		    	<a class="page-link" href="?page=${curPage+1}${extraParam}">Next</a>
-		    </li>
-		  </ul>
-		</nav>
-		<!-- end list book -->
-	</div>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-		crossorigin="anonymous"
-	></script>
+    <!-- Thanh điều hướng -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark px-3">
+        <a class="navbar-brand d-flex align-items-center" href="home">
+            <img src="img/logo.jpg" style="width:50px; height:50px;" class="rounded-circle me-2">
+            <span class="fw-bold">BookStore</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link active" href="home">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" href="giohang">Giỏ hàng</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Thanh toán</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Lịch sử mua</a></li>
+            </ul>
+
+            <!-- Form tìm kiếm -->
+            <form class="d-flex" action="home" method="post">
+                <input name="tenSach" class="form-control me-2" type="search" placeholder="Tìm sách...">
+                <button class="btn btn-outline-success">Tìm</button>
+            </form>
+
+            <!-- Đăng nhập / chào người dùng -->
+            <ul class="navbar-nav ms-3">
+                <c:choose>
+                    <c:when test="${empty sessionScope.userLogin}">
+                        <li class="nav-item"><a class="nav-link" href="auth?action=login">Đăng nhập</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="nav-item"><a class="nav-link" href="auth?action=logout">Đăng xuất</a></li>
+                        <li class="nav-item"><span class="nav-link text-info">Xin chào: ${sessionScope.userLogin.getHoTen()}</span></li>
+                    </c:otherwise>
+                </c:choose>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Nội dung -->
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar p-3">
+                <h5 class="border-bottom pb-2">Loại Sách</h5>
+                <ul class="nav flex-column mt-2">
+                    <li class="nav-item"><a href="home" class="nav-link">Tất cả sách</a></li>
+                    <c:forEach var="l" items="${dsl}">
+                        <li class="nav-item">
+                            <a href="home?ml=${l.getMaLoai()}" class="nav-link">${l.getMaLoai()}</a>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
+
+            <!-- Danh sách sách -->
+            <div class="col-md-10">
+                <div class="row g-4">
+                    <c:forEach var="s" items="${dss}">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="book-item p-2 text-center">
+                                <img src="${s.getAnh()}" class="book-item-img" alt="${s.getTenSach()}">
+                                <h6 class="mt-2">${s.getTenSach()}</h6>
+                                <p class="text-danger fw-bold">${s.getGia()}đ</p>
+                                <a href="giohang?action=them&ms=${s.getMaSach()}&ts=${s.getTenSach()}&gia=${s.getGia()}&img=${s.getAnh()}"
+                                   class="btn btn-outline-primary btn-sm">
+                                   <i class="bi bi-cart-plus"></i> Mua ngay
+                                </a>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+
+                <!-- Phân trang -->
+                <div class="d-flex justify-content-center align-items-center mt-4">
+                    <ul class="pagination">
+                        <li class="page-item ${curPage==1 ? 'disabled' : ''}">
+                            <a class="page-link" href="?page=${curPage-1}${extraParam}">Trước</a>
+                        </li>
+                        <c:forEach var="i" begin="1" end="${totalPages}">
+                            <li class="page-item ${i==curPage ? 'active':''}">
+                                <a class="page-link" href="?page=${i}${extraParam}">${i}</a>
+                            </li>
+                        </c:forEach>
+                        <li class="page-item ${curPage==totalPages ? 'disabled' :''}">
+                            <a class="page-link" href="?page=${curPage+1}${extraParam}">Sau</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
