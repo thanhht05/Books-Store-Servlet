@@ -38,38 +38,43 @@ public class CartController extends HttpServlet {
 			throws ServletException, IOException {
 		LoaiBO loaiBO = new LoaiBO();
 		request.setAttribute("dsl", loaiBO.getAllLoai());
-		
+
 		HttpSession session = request.getSession();
-		User un = (User)session.getAttribute("userLogin");
-		if(un==null) {
+		User un = (User) session.getAttribute("userLogin");
+		if (un == null) {
 			response.sendRedirect("auth?action=login");
 			return;
 		}
-		
-		String action =request.getParameter("action");
-		if(action==null) {
-			 GioHangBO gioHangBO = (GioHangBO) session.getAttribute("gh");
-			 request.setAttribute("listGioHang", gioHangBO.ds);
 
-			    if (gioHangBO != null) {
-			        long tongTien = gioHangBO.tongTien();
-			        request.setAttribute("tongTien", tongTien);
-			    }
+		String action = request.getParameter("action");
+		if (action == null) {
+			GioHangBO gioHangBO = (GioHangBO) session.getAttribute("gh");
+			if (gioHangBO == null) {
+				request.setAttribute("ghnll", "Bạn chưa chọn sản phẩm nào để mua!");
+				RequestDispatcher rd = request.getRequestDispatcher("user/giohang.jsp");
+				rd.forward(request, response);
+				return;
+			}
+			request.setAttribute("listGioHang", gioHangBO.ds);
+
+			if (gioHangBO != null) {
+				long tongTien = gioHangBO.tongTien();
+				request.setAttribute("tongTien", tongTien);
+			}
 			RequestDispatcher rd = request.getRequestDispatcher("user/giohang.jsp");
 			rd.forward(request, response);
 			return;
 		}
-		
-		if(action.equals("them")) {
-			
-			Long maSach = Long.parseLong( request.getParameter("ms"));
+
+		if (action.equals("them")) {
+
+			Long maSach = Long.parseLong(request.getParameter("ms"));
 			String tenSach = request.getParameter("ts");
 			String gia = request.getParameter("gia");
 			String anh = request.getParameter("img");
-			
-			
+
 			if (maSach != null && tenSach != null && gia != null) {
-				
+
 				GioHangBO gioHangBO;
 				// neu mua hang lan dau
 				if (session.getAttribute("gh") == null) {
@@ -83,41 +88,40 @@ public class CartController extends HttpServlet {
 				gh.setMaSach(maSach);
 				gh.setTenSach(tenSach);
 				gh.setSoLuong(1);
-				
+
 				// them gio hang
 				gioHangBO.them(gh);
-				
+
 				session.setAttribute("gh", gioHangBO);
 				session.setAttribute("ds", gioHangBO.ds);
-				
-				
+
 				response.sendRedirect("giohang");
-				
+
 			}
-		}else if(action.equals("capnhat")) {
-			String quantityStr=request.getParameter("quantity");
-			Long  id=Long.parseLong(request.getParameter("id"));
-			GioHangBO ghb=  (GioHangBO) session.getAttribute("gh");
-			if(ghb!=null){
-				
-				if(id!=null && quantityStr!=null){
+		} else if (action.equals("capnhat")) {
+			String quantityStr = request.getParameter("quantity");
+			Long id = Long.parseLong(request.getParameter("id"));
+			GioHangBO ghb = (GioHangBO) session.getAttribute("gh");
+			if (ghb != null) {
+
+				if (id != null && quantityStr != null) {
 					ghb.update(id, Integer.parseInt(quantityStr));
 				}
 				response.sendRedirect("giohang");
 			}
 
-		}else if(action.equals("xoa")) {
+		} else if (action.equals("xoa")) {
 			GioHangBO ghb = (GioHangBO) session.getAttribute("gh");
-			Long  id=Long.parseLong(request.getParameter("id"));
-			if(ghb!=null){
-				
-				if(id!=null){
+			Long id = Long.parseLong(request.getParameter("id"));
+			if (ghb != null) {
+
+				if (id != null) {
 					ghb.xoa(id);
 				}
 				response.sendRedirect("giohang");
 			}
 		}
-		
+
 	}
 
 	/**

@@ -2,9 +2,12 @@
 <%@page import="BO.GioHangBO"%>
 <%@page import="modal.GioHang"%>
 <%@page import="modal.Sach"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-  <%@ taglib
+<%@ page
+	language="java"
+	contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"
+%>
+<%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core"
 	prefix="c"
 %>
@@ -35,108 +38,22 @@
 ></script>
 <title>Giỏ hàng</title>
 <style>
-	input:focus {
-		outline:none;
-	}
-	body{
-		overflow-x:hidden;f 
-	}
-	
+input:focus {
+	outline: none;
+}
+
+body {
+	overflow-x: hidden;
+	f
+}
 </style>
 </head>
 <body>
 	<!-- begin nav -->
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-		<div class="container-fluid">
-			<a
-				class="navbar-brand"
-				href="#">
-				<img src="img/logo.jpg" style="width:60px; height:60px;" />
-			</a>
-			<button
-				class="navbar-toggler"
-				type="button"
-				data-bs-toggle="collapse"
-				data-bs-target="#collapsibleNavbar"
-			>
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div
-				class="collapse navbar-collapse"
-				id="collapsibleNavbar"
-			>
-				<ul class="navbar-nav">
-					<li class="nav-item">
-						<a
-							class="nav-link"
-							href="home">
-							Trang chủ
-						</a>
-					</li>
-					<li class="nav-item">
-						<a
-							class="nav-link"
-							href="giohang">
-							Giỏ hàng
-						</a>
-					</li>
-					
-					<li class="nav-item"><a
-						class="nav-link"
-						href="#"
-					>Thanh toán</a></li>
-					<li class="nav-item"><a
-						class="nav-link"
-						href="#"
-					>Lịch sử khách hàng</a></li>
-
-					<%
-					if (session.getAttribute("un") == null) {
-					%>
-					<li class="nav-item"><a
-						class="nav-link"
-						href="auth?action=login"
-					> Đăng nhập </a></li>
-					<%
-					}
-					%>
-
-					<%
-					if (session.getAttribute("un") != null) {
-					%>
-
-					<li class="nav-item"><a
-						class="nav-link"
-						href="auth?action=logout"
-					>Đăng xuất</a></li>  
-					<%
-					}
-					%>
-
-					<% if(session.getAttribute("un")!=null){ %>
-						<li class="nav-item"><a
-						class="nav-link"
-						href="#"
-					> Xin chào: <%=session.getAttribute("un")%>
-					</a></li>
-					<%} %>
-					
-
-				</ul>
-			
-				<div class="col-sm-3 ms-auto">
-				<form action="home.jsp" method="post" class="d-flex" role="search">
-   				   <input name="tenSach" class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-      				<button class="btn btn-outline-success" type="submit">Search</button>
-    			</form>
-			</div>
-			</div>
-		</div>
-	</nav>
-	
+	<%@ include file="/user/layouts/navbar.jsp"%>
 	<div class="row g-5">
 		<div class="col-sm-2">
-				<!-- start sidebar -->
+			<!-- start sidebar -->
 			<div
 				class="flex-shrink-0 p-3 bg-white"
 				style="width: 280px;"
@@ -173,11 +90,16 @@
 								href="home.jsp"
 							>Tất cả sách</a>
 						</li>
-						<% %>
-						<c:forEach var="l" items="${dsl}">
-						
+						<%
+
+						%>
+						<c:forEach
+							var="l"
+							items="${dsl}"
+						>
 							<li class="dropdown-item fs-5">
-								<a href="home?ml=${l.getMaLoai()}"
+								<a
+									href="home?ml=${l.getMaLoai()}"
 									class="nav-link link-dark"
 								>
 									<svg
@@ -188,92 +110,102 @@
 							                    <use xlink:href="#speedometer2"></use>
 							                </svg>
 									${l.getMaLoai()}
-									
 								</a>
 							</li>
 						</c:forEach>
 					</ul>
 				</div>
 			</div>
-			
 			<!-- end sidebar -->
 		</div>
 		<div class="col-sm-10">
-			<% ArrayList<GioHang> ghb= (ArrayList<GioHang>) request.getAttribute("listGioHang"); %>
-			<%if(ghb==null|| ghb.isEmpty()){ %>
-				   <h2>Giỏ hàng của bạn đang trống</h2>
-			<%} %><%else{ %>
-				<table class="table">
-					<thead>
-		    			<tr>
-		    			 <th scope="col"></th>
-		    			 <th scope="col">Sách</th>
-					      <th scope="col">Mã sách</th>
-					      <th scope="col">Tên sách</th>
-					      <th scope="col">Số lượng</th>
-					      <th scope="col">Giá</th>
-					      <th scope="col">Thành tiền</th>
-					      <th scope="col">Action</th>
-					       
-					    </tr>
-				  </thead>
-					<tbody>
-						<c:forEach var="item" items="${ds}">
+			<c:choose>
+				<c:when test="${not empty ghnll}">
+					<div style="color: red; margin-top: 50px; font-size: 30px; font-weight: bold; text-align: center;">${ghnll}</div>
+				</c:when>
+				<c:otherwise>
+					<table class="table">
+						<thead>
 							<tr>
+								<th scope="col"></th>
+								<th scope="col">Sách</th>
+								<th scope="col">Mã sách</th>
+								<th scope="col">Tên sách</th>
+								<th scope="col">Số lượng</th>
+								<th scope="col">Giá</th>
+								<th scope="col">Thành tiền</th>
+								<th scope="col">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach
+								var="item"
+								items="${ds}"
+							>
+								<tr>
 									<td>
-										<input name="${item.getMaSach()}" type="checkbox"/>
+										<input
+											name="${item.getMaSach()}"
+											type="checkbox"
+										/>
 									</td>
-					     			<td>
-										<img style="width: 72px" src="${item.getAnh()}"/>
+									<td>
+										<img
+											style="width: 72px"
+											src="${item.getAnh()}"
+										/>
 									</td>
 									<td>${item.getMaSach()}</td>
-							    	<td>${ item.getTenSach() }</td>
-							     	<td>
-							     		<form action="giohang?action=capnhat" method="post">
-							     			<input type="hidden" name="id"  value="${item.getMaSach()}">
-								     		<input name="quantity" style="border: 1px solid #ccc;width:50px; text-align: center;" value=${ item.getSoLuong() }>
-								     		<button  class="btn btn-danger">
-							    				Sửa
-							    			</button>
-							     		</form>
-							     	</td>
-							     	<td>${ item.getGia() }</td>
-							    	<td>${ item.getThanhTien() }</td>
-							    	<td> 
-							    		
-							    		<a href="giohang?action=xoa&id=${item.getMaSach()}" class="btn btn-primary">
-										    Xoá
-										</a>
-																	    		
-							    		
-							    	</td>
-					     			
-					     		</tr>
-						</c:forEach>
-
-					</tbody>
-				</table>
-				 <div class="text-end me-4"> 
-					
-					<h4>Thành tiền: <b>${tongTien}đ</b></h4>
-
-				</div> 
-				<div class="text-end me-4"> 
-					
-					<a href="/buy" class="btn btn-success mt-2">Xác nhận mua hàng</a>
-
-				</div> 
-			<%} %>
+									<td>${ item.getTenSach() }</td>
+									<td>
+										<form
+											action="giohang?action=capnhat"
+											method="post"
+										>
+											<input
+												type="hidden"
+												name="id"
+												value="${item.getMaSach()}"
+											>
+											<input
+												name="quantity"
+												style="border: 1px solid #ccc; width: 50px; text-align: center;"
+												value=${ item.getSoLuong() }
+											>
+											<button class="btn btn-danger">Sửa</button>
+										</form>
+									</td>
+									<td>${ item.getGia() }</td>
+									<td>${ item.getThanhTien() }</td>
+									<td>
+										<a
+											href="giohang?action=xoa&id=${item.getMaSach()}"
+											class="btn btn-primary"
+										> Xoá </a>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+					<div class="text-end me-4">
+						<h4>
+							Thành tiền: <b>${tongTien}đ</b>
+						</h4>
+					</div>
+					<div class="text-end me-4">
+						<a
+							href="/buy"
+							class="btn btn-success mt-2"
+						>Xác nhận mua hàng</a>
+					</div>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
-	
-	
-		<script
+	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		crossorigin="anonymous"
 	></script>
-		
-	
 </body>
 </html>

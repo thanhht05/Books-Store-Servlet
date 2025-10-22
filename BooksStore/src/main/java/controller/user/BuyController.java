@@ -15,7 +15,11 @@ import javax.servlet.http.HttpSession;
 
 import BO.GioHangBO;
 import BO.HoaDonBO;
+import BO.LichSuMuaBO;
+import DAO.ChiTietHoaDonDAO;
 import modal.GioHang;
+import modal.HoaDon;
+import modal.LichSuMua;
 import modal.User;
 
 /**
@@ -24,42 +28,60 @@ import modal.User;
 @WebServlet("/buy")
 public class BuyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-      HoaDonBO hoaDonBO = new  HoaDonBO();
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public BuyController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	HoaDonBO hoaDonBO = new HoaDonBO();
+	ChiTietHoaDonDAO chiTietHoaDonDAO = new ChiTietHoaDonDAO();
+	LichSuMuaBO lichSuMuaBO = new LichSuMuaBO();
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		HttpSession session = request.getSession();
-		HoaDonBO hoaDonBO = new HoaDonBO();
-//		GioHangBO ghb = (GioHangBO) session.getAttribute("gh");
-//		ArrayList<GioHang> ds = ghb.ds;
-//		
-//		request.setAttribute("ds", ds.get(0).getTenSach());
-		
-		User user = (User) session.getAttribute("userLogin");
-		if(user!=null) {
-			
-			hoaDonBO.luuHoaDon(user.getId(), Date.valueOf(LocalDate.now()));
-		}
-		
-	
-		RequestDispatcher rd = request.getRequestDispatcher("/user/lichsumua.jsp");
-		rd.forward(request, response);
+	public BuyController() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		HttpSession session = request.getSession();
+		HoaDonBO hoaDonBO = new HoaDonBO();
+
+//		request.setAttribute("ds", ds.get(0).getTenSach());
+
+		User user = (User) session.getAttribute("userLogin");
+		if (user != null) {
+			HoaDon hoaDon = new HoaDon();
+			hoaDon.setMaKH(user.getId());
+			hoaDon.setNgayMua(Date.valueOf(LocalDate.now()));
+			// luu hoa don
+			long hd = hoaDonBO.luuHoaDon(hoaDon);
+
+			// luu chi tiet hoa don
+			GioHangBO ghb = (GioHangBO) session.getAttribute("gh");
+			if (ghb != null) {
+				ArrayList<GioHang> ds = ghb.ds;
+				chiTietHoaDonDAO.luuChiTietHoaDon(ds, hd);
+			}
+
+			response.sendRedirect("/history");
+			session.removeAttribute("gh");
+			return;
+
+		}
+
+		response.sendRedirect("auth?action=login");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
