@@ -1,7 +1,7 @@
 package modal;
 
 public class Sach {
-	private String maSach;
+	private long maSach;
 	private String tenSach;
 	private String tacGia;
 	private long soLuong;
@@ -13,7 +13,7 @@ public class Sach {
 
 	}
 
-	public Sach(String maSach, String tenSach, String tacGia, long soLuong, long gia, String anh, String maLoai) {
+	public Sach(long maSach, String tenSach, String tacGia, long soLuong, long gia, String anh, String maLoai) {
 		this.maSach = maSach;
 		this.tenSach = tenSach;
 		this.tacGia = tacGia;
@@ -23,11 +23,11 @@ public class Sach {
 		this.maLoai = maLoai;
 	}
 
-	public String getMaSach() {
+	public long getMaSach() {
 		return maSach;
 	}
 
-	public void setMaSach(String maSach) {
+	public void setMaSach(long maSach) {
 		this.maSach = maSach;
 	}
 

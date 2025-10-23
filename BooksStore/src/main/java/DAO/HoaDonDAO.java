@@ -14,13 +14,13 @@ public class HoaDonDAO {
 		String sql = "INSERT INTO HoaDon (makhachhang, ngaymua) VALUES (?, ?)";
 
 		try (Connection conn = KetNoiJDBC.getConnection();
-				PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+			PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
 			stmt.setLong(1, hoaDon.getMaKH());
 			stmt.setDate(2, hoaDon.getNgayMua());
 
-			stmt.executeUpdate(); 
-			ResultSet rs = stmt.getGeneratedKeys(); 
+			stmt.executeUpdate();
+			ResultSet rs = stmt.getGeneratedKeys();
 
 			if (rs.next()) {
 				maHoaDon = rs.getLong(1);

@@ -16,12 +16,12 @@ public class SachBO {
 		return ds;
 	}
 
-	public ArrayList<Sach> findByTenSach(String tenSach) {
-		return sachDAO.findByTenSach(tenSach);
+	public ArrayList<Sach> findByTenSach(String tenSach, int page, int rowsPerPage) {
+		return sachDAO.findByTenSach(tenSach, page, rowsPerPage);
 	}
 
-	public ArrayList<Sach> getSachByLoai(String loai) {
-		return sachDAO.getSachByLoai(loai);
+	public ArrayList<Sach> getSachByLoai(String loai, int page, int rowsPerPage) {
+		return sachDAO.getSachByLoai(loai, page, rowsPerPage);
 
 	}
 	
@@ -31,4 +31,11 @@ public class SachBO {
 	public int countSach() {
 		return sachDAO.countSach();
 	}
+	public int countSachByLoai(String maLoai) {
+		return sachDAO.countSachByLoai(maLoai);
+	}
+	public int countSachByTen(String ten) {
+		return sachDAO.countSachByTen(ten);
+	}
+	
 }

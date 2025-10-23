@@ -44,6 +44,8 @@ public class HomeController extends HttpServlet {
 		String mlPrg = request.getParameter("ml");
 		String tenSachPrg = request.getParameter("tenSach");
 		String pagePrg = request.getParameter("page");
+		
+		
 		int rowsPerPage = 10;
 		int page = 1;
 
@@ -55,11 +57,13 @@ public class HomeController extends HttpServlet {
 
 		if (mlPrg != null) {
 
-			ds = sachBO.getSachByLoai(mlPrg);
-			totalSach = ds.size();
+			ds = sachBO.getSachByLoai(mlPrg,page, rowsPerPage);
+			totalSach = sachBO.countSachByLoai(mlPrg);
+			request.setAttribute("ml", "&ml="+mlPrg);
+			
 		} else if (tenSachPrg != null) {
-			ds = sachBO.findByTenSach(tenSachPrg);
-			totalSach = ds.size();
+			ds = sachBO.findByTenSach(tenSachPrg, page, rowsPerPage);
+			totalSach = sachBO.countSachByTen(tenSachPrg);
 		} else {
 			ds = sachBO.getSachByPage(page, rowsPerPage);
 			totalSach = sachBO.countSach();
@@ -70,6 +74,8 @@ public class HomeController extends HttpServlet {
 		request.setAttribute("totalPages", totalPages);
 		request.setAttribute("curPage", page);
 		request.setAttribute("dsl", loaiBO.getAllLoai());
+		
+		
 
 		request.setAttribute("dss", ds);
 

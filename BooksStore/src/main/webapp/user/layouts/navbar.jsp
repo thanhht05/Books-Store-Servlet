@@ -13,13 +13,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item"><a class="nav-link active" href="home">Trang chủ</a></li>
-                <li class="nav-item"><a class="nav-link" href="giohang">Giỏ hàng</a></li>
+                <li class="nav-item"><a class="nav-link" href="/GioHang">Giỏ hàng</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Thanh toán</a></li>
                 <li class="nav-item"><a class="nav-link" href="/history">Lịch sử mua</a></li>
             </ul>
 
             <!-- Form tìm kiếm -->
-            <form class="d-flex" action="home" method="post">
+            <form class="d-flex" action="home" method="get">
                 <input name="tenSach" class="form-control me-2" type="search" placeholder="Tìm sách...">
                 <button class="btn btn-outline-success">Tìm</button>
             </form>

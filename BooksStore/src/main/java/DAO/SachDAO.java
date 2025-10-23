@@ -22,7 +22,7 @@ public class SachDAO {
 				s.setTenSach(rs.getString("tensach"));
 				s.setSoLuong(rs.getLong("soluong"));
 				s.setMaLoai(rs.getString("maloai"));
-				s.setMaSach(rs.getString("masach"));
+				s.setMaSach(rs.getLong("masach"));
 				ds.add(s);
 			}
 
@@ -32,18 +32,21 @@ public class SachDAO {
 		return ds;
 	}
 
-	public ArrayList<Sach> getSachByLoai(String maLoai) {
+	public ArrayList<Sach> getSachByLoai(String maLoai, int page, int rowsPerPage) {
 		ArrayList<Sach> dsSach = new ArrayList<Sach>();
 		try (Connection conn = KetNoiJDBC.getConnection()) {
-			String sql = "SELECT * FROM SACH WHERE maloai =?";
+			String sql = "SELECT * FROM SACH WHERE maloai =? ORDER BY masach OFFSET (?-1) * ? ROWS FETCH NEXT ? ROWS ONLY";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, maLoai);
+			stmt.setInt(2, page);
+			stmt.setInt(3, rowsPerPage);
+			stmt.setInt(4, rowsPerPage);
 
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				Sach s = new Sach();
-				s.setMaSach(rs.getString("masach"));
+				s.setMaSach(rs.getLong("masach"));
 				s.setAnh(rs.getString("anh"));
 				s.setGia(rs.getLong("gia"));
 				s.setTacGia(rs.getString("tacgia"));
@@ -58,12 +61,32 @@ public class SachDAO {
 		return dsSach;
 	}
 
-	public ArrayList<Sach> findByTenSach(String tenSach) {
+	public int countSachByLoai(String maLoai) {
+		int total = 0;
+		try (Connection conn = KetNoiJDBC.getConnection()) {
+			String sql = "SELECT COUNT(*) FROM SACH WHERE maloai = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, maLoai);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				total = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return total;
+	}
+
+	public ArrayList<Sach> findByTenSach(String tenSach, int page, int rowsPerPage) {
 		ArrayList<Sach> dsSach = new ArrayList<Sach>();
 		try (Connection conn = KetNoiJDBC.getConnection()) {
-			String sql = "SELECT * FROM SACH WHERE tensach LIKE N'%" + tenSach + "%'";
+			String sql = "SELECT * FROM SACH WHERE tensach LIKE N'%" + tenSach
+					+ "%' ORDER BY masach OFFSET (?-1) * ? ROWS FETCH NEXT ? ROWS ONLY";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 //			stmt.setString(1, tenSach);
+			stmt.setInt(1, page);
+			stmt.setInt(2, rowsPerPage);
+			stmt.setInt(3, rowsPerPage);
 
 			ResultSet rs = stmt.executeQuery();
 
@@ -76,13 +99,29 @@ public class SachDAO {
 				s.setTenSach(rs.getString("tensach"));
 				s.setSoLuong(rs.getLong("soluong"));
 				s.setMaLoai(rs.getString("maloai"));
-				s.setMaSach(rs.getString("masach"));
+				s.setMaSach(rs.getLong("masach"));
 				dsSach.add(s);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return dsSach;
+	}
+
+	public int countSachByTen(String tenSach) {
+		int total = 0;
+		try (Connection conn = KetNoiJDBC.getConnection()) {
+			String sql = "SELECT COUNT(*) FROM SACH WHERE tensach LIKE ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%" + tenSach + "%"); 
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				total = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return total;
 	}
 
 	public ArrayList<Sach> getSachByPage(int pageNumber, int rowsPerPage) {
@@ -105,7 +144,7 @@ public class SachDAO {
 				s.setTenSach(rs.getString("tensach"));
 				s.setSoLuong(rs.getLong("soluong"));
 				s.setMaLoai(rs.getString("maloai"));
-				s.setMaSach(rs.getString("masach"));
+				s.setMaSach(rs.getLong("masach"));
 				ds.add(s);
 			}
 		} catch (Exception e) {
@@ -128,6 +167,32 @@ public class SachDAO {
 			e.printStackTrace();
 		}
 		return c;
+	}
+
+	public Sach getSachById(long id) {
+		try (Connection conn = KetNoiJDBC.getConnection()) {
+			String sql = "SELECT * FROM SACH WHERE masach =?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setLong(1, id);
+
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				Sach s = new Sach();
+				s.setMaSach(rs.getLong("masach"));
+				s.setAnh(rs.getString("anh"));
+				s.setGia(rs.getLong("gia"));
+				s.setTacGia(rs.getString("tacgia"));
+				s.setTenSach(rs.getString("tensach"));
+				s.setSoLuong(rs.getLong("soluong"));
+				s.setMaLoai(rs.getString("maloai"));
+				return s;
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

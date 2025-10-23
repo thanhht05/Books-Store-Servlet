@@ -80,7 +80,7 @@
                                 <img src="${s.getAnh()}" class="book-item-img" alt="${s.getTenSach()}">
                                 <h6 class="mt-2">${s.getTenSach()}</h6>
                                 <p class="text-danger fw-bold">${s.getGia()}đ</p>
-                                <a href="giohang?action=them&ms=${s.getMaSach()}&ts=${s.getTenSach()}&gia=${s.getGia()}&img=${s.getAnh()}"
+                                <a href="/ThemSanPham?ms=${s.getMaSach()}"
                                    class="btn btn-outline-primary btn-sm">
                                    <i class="bi bi-cart-plus"></i> Mua ngay
                                 </a>
@@ -93,15 +93,16 @@
                 <div class="d-flex justify-content-center align-items-center mt-4">
                     <ul class="pagination">
                         <li class="page-item ${curPage==1 ? 'disabled' : ''}">
-                            <a class="page-link" href="?page=${curPage-1}${extraParam}">Trước</a>
+                            <a class="page-link" href="?page=${curPage-1}${ml}">Trước</a>
                         </li>
                         <c:forEach var="i" begin="1" end="${totalPages}">
                             <li class="page-item ${i==curPage ? 'active':''}">
-                                <a class="page-link" href="?page=${i}${extraParam}">${i}</a>
+                                <a class="page-link" href="?page=${i}${ml}">${i}</a>
                             </li>
                         </c:forEach>
                         <li class="page-item ${curPage==totalPages ? 'disabled' :''}">
-                            <a class="page-link" href="?page=${curPage+1}${extraParam}">Sau</a>
+                           <a class="page-link" href="?page=${curPage + 1}${ml}">Sau</a>
+                           
                         </li>
                     </ul>
                 </div>

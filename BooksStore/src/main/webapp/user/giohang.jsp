@@ -120,86 +120,58 @@ body {
 		</div>
 		<div class="col-sm-10">
 			<c:choose>
-				<c:when test="${not empty ghnll}">
-					<div style="color: red; margin-top: 50px; font-size: 30px; font-weight: bold; text-align: center;">${ghnll}</div>
-				</c:when>
-				<c:otherwise>
-					<table class="table">
-						<thead>
-							<tr>
-								<th scope="col"></th>
-								<th scope="col">Sách</th>
-								<th scope="col">Mã sách</th>
-								<th scope="col">Tên sách</th>
-								<th scope="col">Số lượng</th>
-								<th scope="col">Giá</th>
-								<th scope="col">Thành tiền</th>
-								<th scope="col">Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach
-								var="item"
-								items="${ds}"
-							>
-								<tr>
-									<td>
-										<input
-											name="${item.getMaSach()}"
-											type="checkbox"
-										/>
-									</td>
-									<td>
-										<img
-											style="width: 72px"
-											src="${item.getAnh()}"
-										/>
-									</td>
-									<td>${item.getMaSach()}</td>
-									<td>${ item.getTenSach() }</td>
-									<td>
-										<form
-											action="giohang?action=capnhat"
-											method="post"
-										>
-											<input
-												type="hidden"
-												name="id"
-												value="${item.getMaSach()}"
-											>
-											<input
-												name="quantity"
-												style="border: 1px solid #ccc; width: 50px; text-align: center;"
-												value=${ item.getSoLuong() }
-											>
-											<button class="btn btn-danger">Sửa</button>
-										</form>
-									</td>
-									<td>${ item.getGia() }</td>
-									<td>${ item.getThanhTien() }</td>
-									<td>
-										<a
-											href="giohang?action=xoa&id=${item.getMaSach()}"
-											class="btn btn-primary"
-										> Xoá </a>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-					<div class="text-end me-4">
-						<h4>
-							Thành tiền: <b>${tongTien}đ</b>
-						</h4>
-					</div>
-					<div class="text-end me-4">
-						<a
-							href="/buy"
-							class="btn btn-success mt-2"
-						>Xác nhận mua hàng</a>
-					</div>
-				</c:otherwise>
-			</c:choose>
+    <c:when test="${empty ghnll}">
+        <div style="color: red; margin-top: 50px; font-size: 30px; font-weight: bold; text-align: center;">
+            Giỏ hàng trống
+        </div>
+    </c:when>
+		    <c:otherwise>
+		        <table class="table">
+		            <thead>
+		                <tr>
+		                     <th></th>
+		                    <th> Ảnh></th>
+		                    <th>Tên sách</th>
+		                    <th>Giá</th>
+		                    <th>Số lượng</th>
+		                    <th>Thành tiền</th>
+		                    <th>Action</th>
+		                    
+		                </tr>
+		            </thead>
+		            <tbody>
+		                <c:forEach var="item" items="${ghnll}">
+		                    <tr>
+		                        <td><input type="checkbox" name="${item.id}"/></td>
+		                        <td><img style="width:72px;" src="${item.sach.anh}"/></td>
+		                         <td>${item.sach.tenSach}</td>
+		                        <td>${item.gia}</td>
+		                       
+		                        <td>
+		                            <form action="/CapNhatGioHang" method="post">
+		                                <input type="hidden" name="id" value="${item.sach.maSach}"/>
+		                                <input name="quantity" style="width:50px;text-align:center;" value="${item.soLuong}"/>
+		                                <button class="btn btn-danger">Sửa</button>
+		                            </form>
+		                        </td>
+		                      <td>${item.gia * item.soLuong}</td>
+		                   
+		                         <td>
+		                            <a href="/XoaGioHang?id=${item.sach.maSach}" class="btn btn-primary">Xoá</a>
+		                        </td> 
+		                    </tr>
+		                </c:forEach>
+		            </tbody>
+		        </table>
+		         <div class="text-end me-4">
+		            <h4>Thành tiền: <b>${tongTien}đ</b></h4>
+		        </div> 
+		        <div class="text-end me-4">
+		            <a href="/buy" class="btn btn-success mt-2">Xác nhận mua hàng</a>
+		        </div>
+		    </c:otherwise>
+		</c:choose>
+					
 		</div>
 	</div>
 	<script
