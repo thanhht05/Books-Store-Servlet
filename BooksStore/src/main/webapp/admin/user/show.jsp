@@ -47,7 +47,7 @@
 									<td>${i.getId()}</td>
 									<td>${i.getHoTen()}</td>
 									<td> ${i.getEmail()} </td>
-									<td>Admin</td>
+									<td>${i.role.name}</td>
 									<td>
 										<a href="/admin/update-user?update-id=${i.getId() }" class="btn btn-warning btn-sm">Sửa</a>
 										<a href="/admin/delete-user?delete-id=${i.getId() }" class="btn btn-danger btn-sm">Xoá</a>

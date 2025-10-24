@@ -136,6 +136,12 @@
 									for="nu"
 								>Nữ</label>
 							</div>
+							<select name="role" class="form-select" aria-label="Default select example">
+								  <option selected>Role</option>
+								  <option value="2">ADMIN</option>
+								  <option value="1">USER</option>
+								  
+							</select>
 						</div>
 					</div>
 					<div class="d-grid">

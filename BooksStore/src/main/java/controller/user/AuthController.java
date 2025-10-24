@@ -5,7 +5,9 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
+import BO.RoleBO;
 import BO.UserBO;
+import modal.Role;
 import modal.User;
 
 @WebServlet("/auth")
@@ -54,6 +56,7 @@ public class AuthController extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
+		RoleBO roleBO = new RoleBO();
 		
 
 		String action = request.getParameter("action");
@@ -74,10 +77,13 @@ public class AuthController extends HttpServlet {
 				User user = userBO.getUserByEmail(emailLogin);
 				
 				if(user!=null) {
-					
 					session.setAttribute("userLogin", user);
 				}
-				response.sendRedirect("home");
+				if(user.getRole().getId()==1) {
+					response.sendRedirect("home");
+				}else {
+					response.sendRedirect("/admin");
+				}
 			} else {
 				request.setAttribute("error", "Sai tài khoản hoặc mật khẩu!");
 				request.getRequestDispatcher("user/dangnhap.jsp").forward(request, response);
@@ -107,6 +113,11 @@ public class AuthController extends HttpServlet {
 			user.setEmail(email);
 			user.setPassword(passPrg);
 			user.setHoTen(hoten);
+			long roleId=1;
+			Role role =roleBO.getRoleById(roleId);
+			if(role!=null) {
+				user.setRole(role);
+			}
 			userBO.createUser(user);
 
 			// Đăng ký thành công → chuyển sang trang login

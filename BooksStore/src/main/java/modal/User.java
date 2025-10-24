@@ -7,10 +7,20 @@ public class User {
 	private String diaChi;
 	private String email;
 	private boolean gioTinh;
+	private Role role;
+
 	public User() {
-		
+
 	}
-	
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
 	public boolean getGioTinh() {
 		return gioTinh;
 	}
@@ -19,7 +29,6 @@ public class User {
 		this.gioTinh = gioTinh;
 	}
 
-	
 	private String password;
 
 	public long getId() {
@@ -69,5 +78,5 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 }
