@@ -34,7 +34,7 @@ public class ChiTietGioHangDAO {
 				ChiTietGioHang ctgh = new ChiTietGioHang();
 				ctgh.setId(rs.getLong("id"));
 				ctgh.setSach(s);
-				
+
 				ctgh.setSoLuong(rs.getLong("soluong"));
 				ctgh.setGia(rs.getLong("gia"));
 
@@ -142,6 +142,33 @@ public class ChiTietGioHangDAO {
 				deleteCartStmt.executeUpdate();
 			}
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteAll(ArrayList<ChiTietGioHang> ds, long cartId) {
+		try (Connection conn = KetNoiJDBC.getConnection()) {
+			String sql = "DELETE FROM ChiTietGioHang WHERE sach_id=? and giohang_id=? ";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+
+			for (ChiTietGioHang ct : ds) {
+				stmt.setLong(1, ct.getSach().getMaSach());
+				stmt.setLong(2, cartId);
+
+				stmt.executeUpdate();
+			}
+			String countSql = "SELECT COUNT(*) FROM ChiTietGioHang WHERE gioHang_id = ?";
+			PreparedStatement stmtCount = conn.prepareStatement(countSql);
+			stmtCount.setLong(1, cartId);
+
+			ResultSet rs = stmtCount.executeQuery();
+			if (rs.next() && rs.getInt(1) == 0) {
+				String deleteCartSql = "DELETE FROM GioHang WHERE id = ?";
+				PreparedStatement deleteCartStmt = conn.prepareStatement(deleteCartSql);
+				deleteCartStmt.setLong(1, cartId);
+				deleteCartStmt.executeUpdate();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

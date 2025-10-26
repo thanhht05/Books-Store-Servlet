@@ -2,9 +2,18 @@ package modal;
 
 public class ChiTietHoaDon {
 	private Long maChiTietHD;
-	private Long maSach;
+	private Sach sach;
 	private Boolean daMua;
-	private Long maHoaDon;
+	private HoaDon hoaDon;
+	private long soLuongMua;
+
+	public long getSoLuongMua() {
+		return soLuongMua;
+	}
+
+	public void setSoLuongMua(long soLuongMua) {
+		this.soLuongMua = soLuongMua;
+	}
 
 	public Long getMaChiTietHD() {
 		return maChiTietHD;
@@ -14,13 +23,7 @@ public class ChiTietHoaDon {
 		this.maChiTietHD = maChiTietHD;
 	}
 
-	public Long getMaSach() {
-		return maSach;
-	}
-
-	public void setMaSach(Long maSach) {
-		this.maSach = maSach;
-	}
+	
 
 	public Boolean getDaMua() {
 		return daMua;
@@ -30,12 +33,22 @@ public class ChiTietHoaDon {
 		this.daMua = daMua;
 	}
 
-	public Long getMaHoaDon() {
-		return maHoaDon;
+	public Sach getSach() {
+		return sach;
 	}
 
-	public void setMaHoaDon(Long maHoaDon) {
-		this.maHoaDon = maHoaDon;
+	public void setSach(Sach sach) {
+		this.sach = sach;
 	}
+
+	public HoaDon getHoaDon() {
+		return hoaDon;
+	}
+
+	public void setHoaDon(HoaDon hoaDon) {
+		this.hoaDon = hoaDon;
+	}
+
+	
 
 }

@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class HoaDon {
 	private Long maHoaDon;
-	private Long maKH;
+	private User user;
 	private Date ngayMua;
 
 	public Long getMaHoaDon() {
@@ -15,12 +15,14 @@ public class HoaDon {
 		this.maHoaDon = maHoaDon;
 	}
 
-	public Long getMaKH() {
-		return maKH;
+	
+
+	public User getUser() {
+		return user;
 	}
 
-	public void setMaKH(Long maKH) {
-		this.maKH = maKH;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Date getNgayMua() {

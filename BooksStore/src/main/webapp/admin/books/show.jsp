@@ -13,7 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Dashboard - SB Admin</title>
+        <title>Book Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="/assets/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -35,29 +35,31 @@
 						<thead class="table-dark">
 							<tr>
 								<th>ID</th>
-								<th>Tên User</th>
-								<th>Email</th>
-								<th>Vai trò</th>
-								<th>Thao tác</th>
+								<th>Tên Sách</th>
+								<th>Tác giả</th>
+								<th>Giá</th>
+								<th>Số lượng</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="i" items="${ds}">
+							<c:forEach var="i" items="${dss}">
 								<tr>
-									<td>${i.getId()}</td>
-									<td>${i.getHoTen()}</td>
-									<td> ${i.getEmail()} </td>
-									<td>${i.role.name}</td>
+									<td>${i.getMaSach()}</td>
+									<td>${i.getTenSach()}</td>
+									<td> ${i.getTacGia()} </td>
+									<td>${i.getGia()}</td>
+									<td>${i.getSoLuong()}</td>
 									<td>
-										<a href="/admin/update-user?update-id=${i.getId() }" class="btn btn-warning btn-sm">Sửa</a>
-										<a href="/admin/delete-user?delete-id=${i.getId() }" class="btn btn-danger btn-sm">Xoá</a>
+										<a href="/admin/update-user?update-id=${i.getMaSach() }" class="btn btn-warning btn-sm">Sửa</a>
+										<a href="/admin/delete-user?delete-id=${i.getMaSach() }" class="btn btn-danger btn-sm">Xoá</a>
 									</td>
 								</tr>
 							
 							</c:forEach>
 						</tbody>
 					</table>
-           				 <!-- Phân trang -->
+           							 <!-- Phân trang -->
                 <div class="d-flex justify-content-center align-items-center mt-4">
                     <ul class="pagination">
                         <li class="page-item ${curPage==1 ? 'disabled' : ''}">

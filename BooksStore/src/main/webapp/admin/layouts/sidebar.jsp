@@ -11,7 +11,7 @@
                                 Users
                                 
                             </a>
-                            <a class="nav-link collapsed" href="#" >
+                            <a class="nav-link collapsed" href="/admin/book" >
                                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                                 Books
                                
