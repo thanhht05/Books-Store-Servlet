@@ -56,7 +56,7 @@
                             <td class="text-center">
                                 <c:choose>
                                     <c:when test="${ls.trangThaiMua == 'DA_THANH_TOAN'}">
-                                        <span class="badge bg-success">Đã mua</span>
+                                        <span class="badge bg-success">Đã thanh toán</span>
                                     </c:when>
                                     
                                     <c:otherwise>

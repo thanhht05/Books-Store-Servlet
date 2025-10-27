@@ -77,4 +77,48 @@ public class ChiTietHoaDonDAO {
 		}
 		return ds;
 	}
+	
+	public ChiTietHoaDon getById(Long id) {
+		try (Connection conn = KetNoiJDBC.getConnection()) {
+			String sql ="SELECT * FROM ChiTietHD WHERE maChiTieyHoaDon =?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			
+			stmt.setLong(1, id);
+			
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				ChiTietHoaDon cthd = new ChiTietHoaDon();
+				cthd.setMaChiTietHD(rs.getLong("maChiTieyHoaDon"));
+				cthd.setDaMua(rs.getBoolean("damua"));
+				cthd.setSoLuongMua(rs.getLong("soLuongMua"));
+
+				Sach s = sachDAO.getSachById(rs.getLong("maSach"));
+				if (s != null) {
+					cthd.setSach(s);
+				}
+				HoaDon hd = hoaDonDAO.getHoaDonById(rs.getLong("maHoaDon"));
+				if (hd != null) {
+					cthd.setHoaDon(hd);
+				}
+				return cthd;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public void updateOrder(Long id, boolean daMua) {
+		try (Connection conn = KetNoiJDBC.getConnection()) {
+			String sql="UPDATE ChiTietHD set damua =? where maChiTieyHoaDon=? ";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setBoolean(1, daMua);
+			stmt.setLong(2,id);
+			
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

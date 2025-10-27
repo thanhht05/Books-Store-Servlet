@@ -88,7 +88,7 @@
 									<td>${i.getHoaDon().getNgayMua()}</td>
 									<td>
 										<a
-											href="/admin/update-user?update-id=${i.getMaChiTietHD()}"
+											href="/admin/UpdateOrder?order_id=${i.getMaChiTietHD()}"
 											class="btn btn-warning btn-sm"
 										>Sửa</a>
 										<a

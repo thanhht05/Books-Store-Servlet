@@ -17,4 +17,10 @@ public class ChiTietHDBO {
 	public ArrayList<ChiTietHoaDon> getAllChiTietHoaDon() {
 		return chiTietHoaDonDAO.getAllChiTietHoaDon();
 	}
+	public ChiTietHoaDon getById(Long id) {
+		return chiTietHoaDonDAO.getById(id);
+	}
+	public void updateOrder(Long id, boolean daMua) {
+		chiTietHoaDonDAO.updateOrder(id, daMua);
+	}
 }
