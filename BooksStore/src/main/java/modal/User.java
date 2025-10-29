@@ -1,5 +1,7 @@
 package modal;
 
+import java.time.Instant;
+
 public class User {
 	private long id;
 	private String hoTen;
@@ -8,6 +10,25 @@ public class User {
 	private String email;
 	private boolean gioTinh;
 	private Role role;
+	private String sessionId;
+	private Instant sessionExpire;
+	
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
+	public Instant getSessionExpire() {
+		return sessionExpire;
+	}
+
+	public void setSessionExpire(Instant sessionExpire) {
+		this.sessionExpire = sessionExpire;
+	}
 
 	public User() {
 

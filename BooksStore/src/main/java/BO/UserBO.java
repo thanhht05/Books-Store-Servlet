@@ -1,5 +1,6 @@
 package BO;
 
+import java.time.Instant;
 import java.util.ArrayList;
 
 import DAO.UserDAO;
@@ -35,5 +36,11 @@ public class UserBO {
 	}
 	public boolean deleteUserById(long id) {
 		return userDAO.deleteUserById(id);
+	}
+	public void updateSessionUser(long userId, String sessionId, Instant  sessionExpire) {
+		userDAO.updateSessionUser(userId, sessionId, sessionExpire);
+	}
+	public User getUserBySessionId(String sessionId) {
+		return userDAO.getUserBySessionId(sessionId);
 	}
 }

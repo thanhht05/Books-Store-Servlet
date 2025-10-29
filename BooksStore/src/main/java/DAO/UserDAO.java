@@ -3,6 +3,8 @@ package DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 
 import configuration.PasswordEncryptor;
@@ -165,6 +167,44 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public void updateSessionUser(long userId, String sessionId, Instant  sessionExpire) {
+		try (Connection conn = KetNoiJDBC.getConnection()) {
+			String sql="UPDATE Users SET session_id =?, session_expire=? WHERE id=?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			
+			stmt.setString(1, sessionId);
+			stmt.setTimestamp(2,  Timestamp.from(sessionExpire));
+			stmt.setLong(3, userId);
+			
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public User getUserBySessionId(String sessionId) {
+		try (Connection conn = KetNoiJDBC.getConnection()){
+			String sql ="SELECT * FROM Users WHERE session_id=?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1,sessionId);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				User user = new User();
+				user.setId(rs.getLong("id"));
+				user.setDiaChi(rs.getString("diachi"));
+				user.setEmail(rs.getString("email"));
+				user.setGioTinh(rs.getBoolean("gioitinh"));
+				user.setHoTen(rs.getString("hoten"));
+				user.setPhone(rs.getString("SDT"));
+				user.setSessionExpire(rs.getTimestamp("session_expire").toInstant());
+				return user;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

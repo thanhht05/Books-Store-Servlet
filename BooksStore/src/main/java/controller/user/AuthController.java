@@ -1,6 +1,9 @@
 package controller.user;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -61,7 +64,7 @@ public class AuthController extends HttpServlet {
 
 		String action = request.getParameter("action");
 		HttpSession session = request.getSession();
-
+		
 		switch (action) {
 		case "login":
 			String emailLogin = request.getParameter("email");
@@ -77,7 +80,11 @@ public class AuthController extends HttpServlet {
 				User user = userBO.getUserByEmail(emailLogin);
 				
 				if(user!=null) {
-					session.setAttribute("userLogin", user);
+					session.setMaxInactiveInterval(1* 24*60*60); // 1ngay, 
+					session.setAttribute("userLogin",user);
+					
+					
+					
 				}
 				if(user.getRole().getId()==1) {
 					response.sendRedirect("home");
