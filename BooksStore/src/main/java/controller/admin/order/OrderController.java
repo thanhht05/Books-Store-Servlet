@@ -1,4 +1,4 @@
-package controller;
+package controller.admin.order;
 
 import java.io.IOException;
 import java.util.ArrayList;

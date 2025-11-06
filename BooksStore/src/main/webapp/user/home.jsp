@@ -65,7 +65,7 @@
                     <li class="nav-item"><a href="home" class="nav-link">Tất cả sách</a></li>
                     <c:forEach var="l" items="${dsl}">
                         <li class="nav-item">
-                            <a href="home?ml=${l.getMaLoai()}" class="nav-link">${l.getMaLoai()}</a>
+                            <a href="home?ml=${l.getMaLoai()}" class="nav-link">${l.getTenLoai()}</a>
                         </li>
                     </c:forEach>
                 </ul>

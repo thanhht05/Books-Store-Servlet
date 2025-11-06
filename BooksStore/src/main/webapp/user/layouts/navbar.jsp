@@ -28,10 +28,10 @@
             <ul class="navbar-nav ms-3">
                 <c:choose>
                     <c:when test="${empty sessionScope.userLogin}">
-                        <li class="nav-item"><a class="nav-link" href="auth?action=login">Đăng nhập</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/login">Đăng nhập</a></li>
                     </c:when>
                     <c:otherwise>
-                        <li class="nav-item"><a class="nav-link" href="auth?action=logout">Đăng xuất</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">Đăng xuất</a></li>
                         <li class="nav-item"><span class="nav-link text-info">Xin chào: ${sessionScope.userLogin.getHoTen()}</span></li>
                     </c:otherwise>
                 </c:choose>

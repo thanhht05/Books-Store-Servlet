@@ -1,7 +1,6 @@
-package controller.cart;
+package controller.user;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,25 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import BO.ChiTietGioHangBO;
-import BO.GioHangBO;
-import BO.LoaiBO;
-import modal.ChiTietGioHang;
-import modal.GioHang;
+import BO.UserBO;
 import modal.User;
 
 /**
- * Servlet implementation class GioHang
+ * Servlet implementation class LoginController
  */
-@WebServlet("/GioHang")
-public class GioHangController extends HttpServlet {
+@WebServlet("/login")
+public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	UserBO userBO = new UserBO();
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GioHangController() {
+	public LoginController() {
 		super();
+
 		// TODO Auto-generated constructor stub
 	}
 
@@ -37,36 +33,34 @@ public class GioHangController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	GioHangBO gioHangBO = new GioHangBO();
-	LoaiBO loaiBO = new LoaiBO();
-	ChiTietGioHangBO chiTietGioHangBO = new ChiTietGioHangBO();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
-		request.setAttribute("dsl", loaiBO.getAllLoai());
-
+		String emailLogin = request.getParameter("email");
+		String pass = request.getParameter("pass");
 		HttpSession session = request.getSession();
-		User un = (User) session.getAttribute("userLogin");
-		if (un == null) {
-			response.sendRedirect("/login");
+
+		if (emailLogin == null && pass == null) {
+			RequestDispatcher rd = request.getRequestDispatcher("user/dangnhap.jsp");
+			rd.forward(request, response);
 			return;
 		}
-		
-		User user = (User) session.getAttribute("userLogin");
-		if(user!=null) {
-			ArrayList<ChiTietGioHang> dsctgh= chiTietGioHangBO.getAllByUser(user.getId());
-			long tongTien = 0;
-			for(ChiTietGioHang ctgh:dsctgh) {
-				tongTien+= ctgh.getGia() * ctgh.getSoLuong();
-			}
-			request.setAttribute("tongTien", tongTien);
-			request.setAttribute("ghnll",dsctgh );
-			
-			RequestDispatcher rd = request.getRequestDispatcher("user/giohang.jsp");
+
+		if (!userBO.checkLogin(emailLogin, pass)) {
+			request.setAttribute("error", "Sai tài khoản hoặc mật khuẩu");
+			RequestDispatcher rd = request.getRequestDispatcher("user/dangnhap.jsp");
 			rd.forward(request, response);
+			return;
 		}
-		
+
+		User user = userBO.getUserByEmail(emailLogin);
+		session.setMaxInactiveInterval(1 * 24 * 60 * 60); // 1ngay,
+		session.setAttribute("userLogin", user);
+
+		if (user.getRole().getId() == 1) {
+			response.sendRedirect("home");
+		} else {
+			response.sendRedirect("admin");
+		}
 	}
 
 	/**

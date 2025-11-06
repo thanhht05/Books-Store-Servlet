@@ -63,15 +63,15 @@ public class BuyController extends HttpServlet {
 			hoaDon.setUser(user);
 			hoaDon.setNgayMua(Date.valueOf(LocalDate.now()));
 			// luu hoa don
-			long hd = hoaDonBO.luuHoaDon(hoaDon);
+			long maHoaDon = hoaDonBO.luuHoaDon(hoaDon); // trả về mã hoá đơn vừa lưu
 
 			ArrayList<ChiTietGioHang> ctgh = ctghbo.getAllByUser(user.getId());
 			if (ctgh != null) {
 				
-				chiTietHDBO.luuChiTietHoaDon(ctgh, hd);
+				chiTietHDBO.luuChiTietHoaDon(ctgh, maHoaDon);
 			}
 			
-			
+			// sau khi mua thì xoá sản phẩm đã mua ( chưa xử lý trường hợp user tích vào sản phẩm muốn mua)
 			GioHang gh = gioHangBO.timGioHangByUserId(user.getId());
 			if(gh!=null) {
 				

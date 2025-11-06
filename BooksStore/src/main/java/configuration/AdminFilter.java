@@ -14,7 +14,7 @@ import modal.User;
 
 @WebFilter("/*")
 public class AdminFilter implements Filter {
-	private static final List<String> WHITELIST = Arrays.asList("/auth", "/img/", "/js/", "/assets/", "/home");
+	private static final List<String> WHITELIST = Arrays.asList("/login","/register", "/img/", "/js/", "/assets/", "/home");
 	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -38,38 +38,9 @@ public class AdminFilter implements Filter {
 			return;
 		}
 		
-//		UserBO userBO = new UserBO();
-//
-//		User user = (User) session.getAttribute("userLogin");
-//		if (user != null) {
-//			chain.doFilter(req, res);
-//			return;
-//		}
 
-//		// Nếu chưa có, kiểm tra cookie
-//		Cookie[] cookies = req.getCookies();
-//		String cookieSessionId = null;
-//
-//		if (cookies != null) {
-//			for (Cookie c : cookies) {
-//				if ("JSESSIONIDUSER".equals(c.getName())) { // dùng cookie riêng
-//					cookieSessionId = c.getValue();
-//					break;
-//				}
-//			}
-//		}
-//
-//		if (cookieSessionId != null) {
-//			User userFromDb = userBO.getUserBySessionId(cookieSessionId);
-//
-//			if (userFromDb != null && userFromDb.getSessionExpire().isAfter(Instant.now())) {
-//				session.setAttribute("userLogin", userFromDb);
-//				chain.doFilter(req, res);
-//				return;
-//			}
-//		}
 
 		// Không có session hoặc cookie hợp lệ → bắt login lại
-		res.sendRedirect(req.getContextPath() + "/auth?action=login");
+		res.sendRedirect(req.getContextPath() + "/login");
 	}
 }

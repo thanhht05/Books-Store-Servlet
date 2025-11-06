@@ -149,6 +149,7 @@ public class ChiTietGioHangDAO {
 
 	public void deleteAll(ArrayList<ChiTietGioHang> ds, long cartId) {
 		try (Connection conn = KetNoiJDBC.getConnection()) {
+			// xoá chiTietGioHang theo sach_id và gioHang_id
 			String sql = "DELETE FROM ChiTietGioHang WHERE sach_id=? and giohang_id=? ";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -158,11 +159,16 @@ public class ChiTietGioHangDAO {
 
 				stmt.executeUpdate();
 			}
+			
+			// sau khi xoá thì kiểm tra trong table ChiTietGioHang con tồn tại trường gioHangId không
 			String countSql = "SELECT COUNT(*) FROM ChiTietGioHang WHERE gioHang_id = ?";
 			PreparedStatement stmtCount = conn.prepareStatement(countSql);
 			stmtCount.setLong(1, cartId);
 
 			ResultSet rs = stmtCount.executeQuery();
+			
+			// Nếu không tồn tại trường gioHangId trong ChiTietGioHang thì xoá giỏ hàng trong table giỏ hàng
+			//vì 1 gioHang - n ChiTietGIonHang
 			if (rs.next() && rs.getInt(1) == 0) {
 				String deleteCartSql = "DELETE FROM GioHang WHERE id = ?";
 				PreparedStatement deleteCartStmt = conn.prepareStatement(deleteCartSql);
