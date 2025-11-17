@@ -15,7 +15,7 @@ public class LichSuMuaDAO {
 		ArrayList<LichSuMua> dsls= new ArrayList<LichSuMua>();
 		try (Connection conn = KetNoiJDBC.getConnection()) {
 			String sql = "select * from V_LichSuMua where user_id=?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			PreparedStatement stmt = conn.prepareStatement(sql); 
 			stmt.setLong(1, userId);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {

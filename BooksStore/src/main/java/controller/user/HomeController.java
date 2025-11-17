@@ -43,11 +43,11 @@ public class HomeController extends HttpServlet {
 
 		String mlPrg = request.getParameter("ml");
 		String tenSachPrg = request.getParameter("tenSach");
-		String pagePrg = request.getParameter("page");
+		String pagePrg = request.getParameter("page");// tham số page truyền vào url
 		
 		
-		int rowsPerPage = 10;
-		int page = 1;
+		int rowsPerPage = 10; // số lượng sách trong 1 page
+		int page = 1; // ban đầu mặc đinh cho page =1
 
 		if (pagePrg != null) {
 			page = Integer.parseInt(pagePrg);
@@ -68,8 +68,7 @@ public class HomeController extends HttpServlet {
 			ds = sachBO.getSachByPage(page, rowsPerPage);
 			totalSach = sachBO.countSach();
 		}
-
-	    int totalPages = (int) Math.ceil((double) totalSach / rowsPerPage);
+	    int totalPages = (int) Math.ceil((double) totalSach / rowsPerPage); // làm tròn trên ( 3.4=> 4 trang)
 
 		request.setAttribute("totalPages", totalPages);
 		request.setAttribute("curPage", page);

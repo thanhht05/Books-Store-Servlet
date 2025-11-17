@@ -32,6 +32,13 @@ public class SachDAO {
 		return ds;
 	}
 
+	
+	/*
+	 	OFFSET ( page-1)* rowPerpage:  Là số dòng muốn bỏ qua
+	 	page?: Lấy dữ liệu từ trang số mấy
+	 	rowPerpage?: Mỗi trang có 5 dòng
+	 	FETCH NEXT?: Lấy rowsPerPage dòng tiếp theo
+	 */
 	public ArrayList<Sach> getSachByLoai(String maLoai, int page, int rowsPerPage) {
 		ArrayList<Sach> dsSach = new ArrayList<Sach>();
 		try (Connection conn = KetNoiJDBC.getConnection()) {
