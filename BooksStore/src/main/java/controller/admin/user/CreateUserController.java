@@ -55,7 +55,7 @@ public class CreateUserController extends HttpServlet {
 			user.setPhone(phone);
 			userBO.createUser(user);
 			
-			response.sendRedirect("/admin");
+			response.sendRedirect("/admin/user");
 		}else {
 			RequestDispatcher rd = request.getRequestDispatcher("/admin/user/create-user.jsp");
 			rd.forward(request, response);

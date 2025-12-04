@@ -3,6 +3,8 @@ package DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import modal.Sach;
@@ -32,6 +34,26 @@ public class SachDAO {
 		return ds;
 	}
 
+	
+	public void createSach(String tenSach, long soLuong, long gia, String tacGia, String anh,Timestamp  ngayNhap, String maLoai ) {
+		
+		try (Connection conn = KetNoiJDBC.getConnection()){
+			String sql="INSERT INTO sach ( tensach, soluong, gia, anh, tacgia, ngayNhap, maLoai) VALUES (?, ?,?,?, ?,?,?)";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, tenSach);
+			stmt.setLong(2,soLuong);
+			stmt.setLong(3, gia);
+			stmt.setString(4, anh);
+			stmt.setString(5, tacGia);
+			stmt.setTimestamp(6,ngayNhap);
+			stmt.setString(7, maLoai);
+			stmt.executeUpdate();
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/*
 	 	OFFSET ( page-1)* rowPerpage:  Là số dòng muốn bỏ qua
@@ -201,5 +223,7 @@ public class SachDAO {
 		}
 		return null;
 	}
+	
+//	public ArrayList<LoaiDAO>
 
 }

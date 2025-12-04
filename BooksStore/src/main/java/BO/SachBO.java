@@ -1,5 +1,6 @@
 package BO;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -36,6 +37,9 @@ public class SachBO {
 	}
 	public int countSachByTen(String ten) {
 		return sachDAO.countSachByTen(ten);
+	}
+	public void createSach(String tenSach, long soLuong, long gia, String tacGia, String anh , Timestamp ngayNhap, String maLoai) {
+		sachDAO.createSach(tenSach, soLuong, gia, tacGia, anh, ngayNhap, maLoai);
 	}
 	
 }

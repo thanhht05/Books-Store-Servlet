@@ -30,7 +30,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-   						<a style="float: right;" class="btn btn-danger my-2 " href="/admin/create-user"> Create user</a>
+   						<a style="float: right;" class="btn btn-danger my-2 " href="/admin/create-book"> Create book</a>
                        <table class="table table-bordered table-hover mt-3">
 						<thead class="table-dark">
 							<tr>

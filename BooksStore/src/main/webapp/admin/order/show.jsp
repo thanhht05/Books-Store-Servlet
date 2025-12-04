@@ -95,6 +95,10 @@
 											href="/admin/delete-user?delete-id=${i.getMaChiTietHD()}"
 											class="btn btn-danger btn-sm"
 										>Xoá</a>
+										<a
+											href="/admin/delete-user?delete-id=${i.getMaChiTietHD()}"
+											class="btn btn-success btn-sm"
+										>Chi tiết</a>
 									</td>
 								</tr>
 							</c:forEach>

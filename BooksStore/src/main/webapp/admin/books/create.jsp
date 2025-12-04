@@ -13,16 +13,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Create user</title>
+        <title>Create Book</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="/assets/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+       
     </head>
     <body class="sb-nav-fixed">
         <c:import url="/admin/layouts/navbar.jsp" />
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <nav class="sb-sidenav accordion sb-sidenv-dark" id="sidenavAccordion">
                     <c:import url="/admin/layouts/sidebar.jsp" />
                    
                 </nav>
@@ -31,124 +32,92 @@
                 <main>
                     <div class="container-fluid px-4">
    						<div class="form-container col-md-6 p-4 mx-auto">
-				<h3 class="text-center mb-4">Tạo Người Dùng</h3>
+				<h3 class="text-center mb-4">Tạo mới sách</h3>
 				<form
 					method="post"
-					action="create-user"
+					action="create-book"
+					enctype="multipart/form-data"
 				>
 					<div class="mb-3">
 						<label
 							for="hoTen"
 							class="form-label"
-						>Họ và tên</label>
+						>Tên sách</label>
 						<input
 							type="text"
 							class="form-control"
-							id="hoTen"
-							name="hoten"
-							placeholder="Nhập họ tên"
+							id="tenSach"
+							name="tenSach"
+							placeholder="Nhập tên sách"
 							required
 						>
 					</div>
 					<div class="mb-3">
 						<label
-							for="email"
+							for="soLuong"
 							class="form-label"
-						>Email</label>
+						>Số lượng</label>
 						<input
-							type="email"
+							type="number"
 							class="form-control"
-							id="email"
-							name="email"
-							placeholder="Nhập email"
+							id="soLuong"
+							name="soLuong"
+							placeholder="Nhập số lượng"
 							required
 						>
 					</div>
 					<div class="mb-3">
 						<label
-							for="pass"
+							for="gia"
 							class="form-label"
-						>Mật khẩu</label>
+						>Giá</label>
 						<input
-							type="password"
+							type="number"
 							class="form-control"
-							id="pass"
-							name="pass"
-							placeholder="Nhập mật khẩu"
+							id="gia"
+							name="gia"
+							placeholder="Nhập giá sách"
 							required
 						>
 					</div>
 					<div class="mb-3">
 						<label
-							for="phone"
+							for="tacGia"
 							class="form-label"
-						>Số điện thoại</label>
+						>Tác giả</label>
 						<input
-							type="tel"
+							type="text"
 							class="form-control"
-							id="phone"
-							name="phone"
-							placeholder="Nhập số điện thoại"
+							id="tacGia"
+							name="tacGia"
+							placeholder="Nhập tác giả"
 							required
 						>
 					</div>
+					
+					<label class="form-label">Chọn mã loại sách </label>
+					<select name="maLoai" class="form-select">
+					    <option selected>Loại sách</option>
+					    <c:forEach var="l" items="${ dsLoai}">
+					         <option value="${l.maLoai}">${l.tenLoai}</option>
+					    </c:forEach>
+					</select>
+					
+					
 					<div class="mb-3">
-						<label
-							for="diaChi"
-							class="form-label"
-						>Địa chỉ</label>
-						<textarea
-							class="form-control"
-							id="diaChi"
-							name="diachi"
-							rows="2"
-							placeholder="Nhập địa chỉ"
-							required
-						></textarea>
+						<label class="form-label" for="customFile">Upload ảnh </label>
+						<input name="anh"  type="file" accept="image/" class="form-control" id="customFile" onchange="loadImg()" />
+						<br/>
+						<img style="object-fit:cover;" id="frame" width="250px" height="200px" />
+						
+						
 					</div>
-					<div class="mb-3">
-						<label class="form-label">Giới tính</label>
-						<div>
-							<div class="form-check form-check-inline">
-								<input
-									class="form-check-input"
-									type="radio"
-									name="giotinh"
-									id="nam"
-									value="1"
-									checked
-								>
-								<label
-									class="form-check-label"
-									for="nam"
-								>Nam</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input
-									class="form-check-input"
-									type="radio"
-									name="giotinh"
-									id="nu"
-									value="0"
-								>
-								<label
-									class="form-check-label"
-									for="nu"
-								>Nữ</label>
-							</div>
-							<select name="role" class="form-select" aria-label="Default select example">
-								  <option selected>Role</option>
-								  <option value="2">ADMIN</option>
-								  <option value="1">USER</option>
-								  
-							</select>
-						</div>
-					</div>
+					
 					<div class="d-grid">
 						<button
 							type="submit"
 							class="btn btn-primary"
-						>Tạo người dùng</button>
+						>Tạo sách</button>
 					</div>
 				</form>
 			</div>
@@ -171,7 +140,19 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         
-        
+        <script type="text/javascript">
+	        function loadImg() {
+	            const fileInput = document.getElementById("customFile");
+	            const frame = document.getElementById("frame");
+	
+	            const file = fileInput.files[0];
+	            if (file) {
+	                frame.src = URL.createObjectURL(file); // tạo URL tạm cho file
+	            }
+	        }
+
+
+        </script>
        
     </body>
 </html>
