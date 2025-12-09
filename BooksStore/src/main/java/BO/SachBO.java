@@ -41,5 +41,12 @@ public class SachBO {
 	public void createSach(String tenSach, long soLuong, long gia, String tacGia, String anh , Timestamp ngayNhap, String maLoai) {
 		sachDAO.createSach(tenSach, soLuong, gia, tacGia, anh, ngayNhap, maLoai);
 	}
+	public ArrayList<Sach> getSachSapHetHang(int pageNumber, int rowsPerPage){
+		return sachDAO.getSachSapHetHang(pageNumber,rowsPerPage);
+	}
+	public int countSachSapHet() {
+		
+		return sachDAO.countSachSapHet();
+	}
 	
 }

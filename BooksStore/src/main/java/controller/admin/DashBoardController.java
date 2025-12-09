@@ -11,7 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import BO.SachBO;
 import BO.UserBO;
+import DAO.SachDAO;
+import DAO.ThongKeDAO;
+import DTO.ThongKeNgay;
+import DTO.ThongKeSachBanChay;
 import modal.User;
 
 /**
@@ -20,6 +25,9 @@ import modal.User;
 @WebServlet("/admin") 
 public class DashBoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	ThongKeDAO tkDao=new ThongKeDAO();
+	
+	SachBO sachBO = new SachBO();
      
     /**
      * @see HttpServlet#HttpServlet()
@@ -44,8 +52,23 @@ public class DashBoardController extends HttpServlet {
 				return;
 			}
 		}
-		RequestDispatcher rd = request.getRequestDispatcher("/admin/dashboard.jsp");
+		int tongSach=sachBO.getAllSach().size();
+		request.setAttribute("sum", tongSach);
 		
+		int soLuongsachSapHet=sachBO.countSachSapHet();
+		request.setAttribute("ssh", soLuongsachSapHet);
+		
+		
+//		long soLuongSahDaHet=sachBO.getSachSapHetHang().stream().filter(s->s.getSoLuong()==0).count();
+		request.setAttribute("slhs", 11);
+		
+		ThongKeNgay tkd= tkDao.getThongKeTheoNgay();
+		
+		int donHangChuXyLy=tkDao.getSoLuongDonHangChuaXuLy();
+		request.setAttribute("tkd", tkd);
+		request.setAttribute("slOrder", donHangChuXyLy);
+		RequestDispatcher rd = request.getRequestDispatcher("/admin/dashboard.jsp");
+		System.err.println("Hello");
 		rd.forward(request, response);
 	}
 

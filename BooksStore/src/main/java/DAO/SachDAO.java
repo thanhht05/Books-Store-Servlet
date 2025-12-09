@@ -225,5 +225,61 @@ public class SachDAO {
 	}
 	
 //	public ArrayList<LoaiDAO>
+	
+	public ArrayList<Sach> getSachSapHetHang(int pageNumber, int rowsPerPage){
+		
+		ArrayList<Sach>ds=new ArrayList<Sach>();
+		try (Connection conn=KetNoiJDBC.getConnection()){
+//			String sql="SELECT * FROM sach WHERE soluong <=10";
+			String sql = """
+					SELECT *
+					FROM SACH
+					WHERE soluong <= 10
+					ORDER BY masach
+					OFFSET (? - 1) * ? ROWS
+					FETCH NEXT ? ROWS ONLY;
+
+					""";
+			
+			PreparedStatement stmt=conn.prepareStatement(sql);
+			
+			stmt.setInt(1, pageNumber);
+			stmt.setInt(2, rowsPerPage);
+			stmt.setInt(3, rowsPerPage);
+			ResultSet rs=stmt.executeQuery();
+			while(rs.next()) {
+				Sach s = new Sach();
+				s.setAnh(rs.getString("anh"));
+				s.setGia(rs.getLong("gia"));
+				s.setTacGia(rs.getString("tacgia"));
+				s.setTenSach(rs.getString("tensach"));
+				s.setSoLuong(rs.getLong("soluong"));
+				s.setMaLoai(rs.getString("maloai"));
+				s.setMaSach(rs.getLong("masach"));
+				ds.add(s);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ds;
+	}
+	public int countSachSapHet() {
+		int c = 0;
+		try (Connection conn = KetNoiJDBC.getConnection()) {
+			String sql = "SELECT COUNT(*) FROM Sach WHERE soluong <=10 and soluong>0";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				c = rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return c;
+	}
+	
+	
+	
 
 }
