@@ -76,9 +76,15 @@
 									class="form-control"
 									id="tensach"
 									name="tensach"
-									placeholder="Nhập tên sách"
-									required
+									disabled="disabled"
 									value="${order.getSach().getTenSach()}"
+								>
+							</div>
+							<div class="mb-3">
+								<input
+									type="hidden"
+									name="maSach"
+									value="${order.getSach().getMaSach()}"
 								>
 							</div>
 							<div class="mb-3">
@@ -105,7 +111,7 @@
 									class="form-control"
 									id="soluong"
 									name="soLuongMua"
-									disabled="true"
+									disabled="disabled"
 									required
 									value="${order.getHoaDon().getNgayMua()}"
 								>

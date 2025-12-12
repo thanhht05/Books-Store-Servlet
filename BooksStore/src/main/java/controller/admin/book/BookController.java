@@ -44,16 +44,16 @@ public class BookController extends HttpServlet {
 		int rowsPerPage = 5;
 
 		String prgSachSapHet = request.getParameter("SachSapHet");
+		String prgSachDaHet = request.getParameter("sachDaHet");
 		if (prgSachSapHet != null) {
-			ArrayList<Sach> sachSHet = sachBO.getSachSapHetHang(page, rowsPerPage).stream().filter(s -> s.getSoLuong() > 0)
-					.collect(Collectors.toCollection(ArrayList::new));
-			
-			sachSHet.sort((a, b) -> Long.compare(b.getSoLuong(), a.getSoLuong()));
-			
-			
+			ArrayList<Sach> sachSHet = sachBO.getSachSapHetHang(page, rowsPerPage).stream()
+					.filter(s -> s.getSoLuong() > 0).collect(Collectors.toCollection(ArrayList::new));
+
+		
+
 			int totalSachSapHet = sachBO.countSachSapHet();
 			int totalPagesSsh = (int) Math.ceil((double) totalSachSapHet / rowsPerPage);
-		
+
 			request.setAttribute("curPage", page);
 			request.setAttribute("totalPages", totalPagesSsh);
 
@@ -62,8 +62,23 @@ public class BookController extends HttpServlet {
 			rd.forward(request, response);
 			return;
 		}
+		if (prgSachDaHet != null) {
+			ArrayList<Sach> sachHet= sachBO.getSachSapHetHang(page, rowsPerPage).stream()
+						.filter(s->s.getSoLuong()==0).collect(Collectors.toCollection(ArrayList::new));
+			sachHet.sort((a, b) -> Long.compare(b.getSoLuong(), a.getSoLuong()));
+			
+			int totalSachDaHet=sachBO.countSachDaHet();
+			int totalPagesSachDaHet = (int) Math.ceil((double) totalSachDaHet / rowsPerPage);
+			request.setAttribute("curPage", page);
+			request.setAttribute("totalPages", totalPagesSachDaHet);
 
-		
+			request.setAttribute("sachSHet", sachHet);
+			RequestDispatcher rd = request.getRequestDispatcher("/admin/reports/HienThiSachDaHet.jsp");
+			rd.forward(request, response);
+
+			return;
+		}
+
 		int totalSach = sachBO.countSach();
 		ArrayList<Sach> dss = sachBO.getSachByPage(page, rowsPerPage);
 

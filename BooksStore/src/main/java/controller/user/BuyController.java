@@ -18,6 +18,7 @@ import BO.ChiTietHDBO;
 import BO.GioHangBO;
 import BO.HoaDonBO;
 import BO.LichSuMuaBO;
+import BO.SachBO;
 import DAO.ChiTietHoaDonDAO;
 import modal.ChiTietGioHang;
 import modal.GioHang;
@@ -36,6 +37,7 @@ public class BuyController extends HttpServlet {
 	LichSuMuaBO lichSuMuaBO = new LichSuMuaBO();
 	ChiTietGioHangBO ctghbo= new ChiTietGioHangBO();
 	GioHangBO gioHangBO = new GioHangBO();
+	SachBO sachBO = new SachBO(); 
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -71,12 +73,16 @@ public class BuyController extends HttpServlet {
 				chiTietHDBO.luuChiTietHoaDon(ctgh, maHoaDon);
 			}
 			
+			
+			
 			// sau khi mua thì xoá sản phẩm đã mua ( chưa xử lý trường hợp user tích vào sản phẩm muốn mua)
 			GioHang gh = gioHangBO.timGioHangByUserId(user.getId());
 			if(gh!=null) {
 				
 				ctghbo.deleteAll(ctgh, gh.getId());
 			}
+			
+			
 			response.sendRedirect("/history");
 			return;
 

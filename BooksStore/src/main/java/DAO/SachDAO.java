@@ -279,6 +279,43 @@ public class SachDAO {
 		return c;
 	}
 	
+	public int countSachDaHet() {
+		int c = 0;
+		try (Connection conn = KetNoiJDBC.getConnection()) {
+			String sql = "SELECT COUNT(*) FROM Sach WHERE soluong =0";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				c = rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return c;
+	}
+	
+	public void capNhatSoLuongSach(long soLuong, long maSach) {
+		try (Connection conn=KetNoiJDBC.getConnection()) {
+			String sql="""
+						UPDATE SACH
+						SET soluong = soluong - ?
+						FROM SACH
+						JOIN ChiTietHD ON SACH.masach = ChiTietHD.masach
+						WHERE SACH.masach = ?
+						  AND ChiTietHD.daMua = 1;
+
+					""";
+			
+			PreparedStatement stmt=conn.prepareStatement(sql);
+			stmt.setLong(1,soLuong);
+			stmt.setLong(2, maSach);
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	
 

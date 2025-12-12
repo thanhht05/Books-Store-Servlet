@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import BO.ChiTietHDBO;
+import BO.SachBO;
+import DAO.SachDAO;
 import modal.ChiTietHoaDon;
 
 /**
@@ -19,6 +21,7 @@ import modal.ChiTietHoaDon;
 public class UpdateOrderController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	ChiTietHDBO chiTietHDBO = new ChiTietHDBO();
+	SachBO sachBO = new SachBO();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -35,7 +38,8 @@ public class UpdateOrderController extends HttpServlet {
 		
 		String idOrder= request.getParameter("order_id");
 		
-		if(idOrder!=null) {
+		
+		if(idOrder!=null ) {
 			ChiTietHoaDon cthd = chiTietHDBO.getById(Long.parseLong(idOrder));
 			
 			request.setAttribute("order", cthd);
@@ -45,10 +49,15 @@ public class UpdateOrderController extends HttpServlet {
 		}else {
 			String daMuaStr= request.getParameter("daMua");
 			Long id = Long.parseLong(request.getParameter("id"));
+			String maSach=request.getParameter("maSach");
+			String soLuong=request.getParameter("soLuongMua");
+			
+			
 			
 			if(daMuaStr.equals("1")) {
 				
 				chiTietHDBO.updateOrder(id, true);
+				sachBO.capNhatSoLuongSach(Long.parseLong(soLuong), Long.parseLong(maSach));
 			}else {
 				chiTietHDBO.updateOrder(id, false);
 			}

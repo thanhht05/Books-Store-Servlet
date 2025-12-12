@@ -66,6 +66,7 @@
 								<td>ID</td>
 								<th>User Id</th>
 								<th>Tên Sách</th>
+								
 								<th>Giá</th>
 								<th>Số lượng</th>
 								<th>Đã mua</th>
@@ -82,6 +83,7 @@
 									<td>${i.getMaChiTietHD()}</td>
 									<td>${i.getHoaDon().getUser().getId()}</td>
 									<td>${i.getSach().getTenSach()}</td>
+									
 									<td>${i.getSoLuongMua() * i.getSach().getGia() }</td>
 									<td>${i.getSoLuongMua()}</td>
 									<td>${i.getDaMua()}</td>
